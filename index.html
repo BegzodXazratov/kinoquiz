@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🎬 CineQuiz Pro Mobile Deluxe</title>
+<title>🎬 CineQuiz Pro 300 - Fast Mode</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -11,71 +11,58 @@
   --blue: #00a8ff; --red: #ff4757; --green: #2ed573; --text: #f0f0f0; --dim: #57606f;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-body { 
-    background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; 
-    min-height: 100vh; overflow-x: hidden; touch-action: pan-y; 
-}
+body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
-/* Progress Bar */
 .progress-container { width: 100%; height: 4px; background: #111; position: sticky; top: 0; z-index: 1000; }
 .progress-bar { height: 100%; width: 0%; background: var(--gold); box-shadow: 0 0 8px var(--gold); transition: 0.5s; }
 
 header { text-align: center; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; }
 h1 { font-family: 'Bebas Neue'; font-size: 1.8rem; color: var(--gold); }
-.round-counter { font-family: 'Space Mono'; color: var(--gold); font-size: 1rem; }
+.round-counter { font-family: 'Space Mono'; color: var(--gold); font-size: 1.1rem; }
 
 .info-area { max-width: 850px; margin: 10px auto; padding: 0 10px; }
-.intro-box { background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; padding: 12px; font-style: italic; font-size: 0.85rem; text-align: center; color: #eee; margin-bottom: 8px; }
+.intro-box { background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; padding: 12px; font-style: italic; font-size: 0.9rem; text-align: center; color: #eee; margin-bottom: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
 .fact-display-box { 
     background: rgba(0, 168, 255, 0.15); border: 1px solid var(--blue); border-left: 5px solid var(--blue); 
-    padding: 12px; border-radius: 6px; min-height: 50px; display: flex; align-items: center; 
-    justify-content: center; font-weight: bold; font-size: 0.95rem; color: #fff; opacity: 0; transition: 0.3s;
+    padding: 15px; border-radius: 6px; min-height: 60px; display: flex; align-items: center; 
+    justify-content: center; font-weight: bold; font-size: 1.1rem; color: #fff; opacity: 0; transition: 0.3s;
 }
 .fact-display-box.show { opacity: 1; }
 
-.game-stats { display: flex; justify-content: center; gap: 30px; margin: 5px 0; font-family: 'Space Mono'; }
-.stat-val { font-size: 1.8rem; color: var(--gold); font-weight: bold; }
+.game-stats { display: flex; justify-content: center; gap: 40px; margin: 10px 0; font-family: 'Space Mono'; }
+.stat-item { text-align: center; }
+.stat-label { font-size: 0.6rem; color: var(--dim); text-transform: uppercase; display: block; }
+.stat-val { font-size: 2rem; color: var(--gold); font-weight: bold; }
 
-/* Wheel */
-.wheel-container { display: flex; justify-content: center; margin-bottom: 10px; position: relative; }
-.wheel-wrap { width: 180px; height: 180px; position: relative; border-radius: 50%; border: 5px solid var(--panel); box-shadow: 0 0 15px var(--gold-glow); touch-action: none; }
-#wheel { width: 100%; height: 100%; border-radius: 50%; }
-.wheel-marker { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; z-index: 10; }
-
-/* Crossword */
-.title-cells { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin: 15px 0; padding: 0 5px; }
+.title-cells { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin: 20px 0; padding: 0 10px; }
 .tcell-input { 
-    width: 28px; height: 36px; background: #111; border: 1px solid var(--dim); 
-    border-bottom: 3px solid var(--gold); text-align: center; font-family: 'Bebas Neue'; 
-    font-size: 1.5rem; color: var(--gold); border-radius: 3px; outline: none; -webkit-appearance: none;
+    width: 34px; height: 42px; background: #111; border: 1px solid var(--dim); 
+    border-bottom: 4px solid var(--gold); text-align: center; font-family: 'Bebas Neue'; 
+    font-size: 1.8rem; color: var(--gold); border-radius: 4px; outline: none; transition: 0.2s;
 }
 .tcell-input.correct { border-color: var(--green) !important; background: rgba(46, 213, 115, 0.2); }
-.tcell-input.wrong { border-color: var(--red) !important; background: rgba(255, 71, 87, 0.2); }
+.tcell-input.wrong { border-color: var(--red) !important; background: rgba(255, 71, 87, 0.2); color: var(--red); }
 
-/* Cards Grid */
-.cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; max-width: 850px; margin: 15px auto; padding: 0 10px; }
+.cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 850px; margin: 20px auto; padding: 0 10px; }
 .card { aspect-ratio: 3/4; perspective: 1000px; }
 .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
 .card.flipped .card-inner { transform: rotateY(180deg); }
-.card-back, .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); }
-.card-back { background: #101326; color: var(--gold); }
-.card-front { background: #081226; transform: rotateY(180deg); border-color: var(--gold); padding: 2px; text-align: center; }
+.card-back, .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); }
+.card-back { background: #101326; color: var(--gold); cursor: pointer; }
+.card-front { background: #081226; transform: rotateY(180deg); border-color: var(--gold); padding: 5px; text-align: center; }
 
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 15px; }
+.btn-skip { background: transparent; border: 2px solid var(--red); color: var(--red); padding: 12px 30px; font-family: 'Bebas Neue'; font-size: 1.2rem; cursor: pointer; border-radius: 5px; display: block; margin: 30px auto; }
+
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
 .overlay.show { display: flex; }
-.modal { background: var(--panel); padding: 20px; border: 2px solid var(--gold); border-radius: 12px; text-align: center; width: 100%; max-width: 500px; }
+.modal { background: var(--panel); padding: 30px; border: 2px solid var(--gold); border-radius: 15px; text-align: center; width: 100%; max-width: 550px; }
 
-.stats-table { width: 100%; margin: 15px 0; border-collapse: collapse; font-size: 0.75rem; }
-.stats-table th, .stats-table td { border: 1px solid var(--dim); padding: 6px; text-align: left; }
-.stats-table th { background: var(--panel); color: var(--gold); font-family: 'Bebas Neue'; }
+.stats-table { width: 100%; margin: 20px 0; border-collapse: collapse; font-size: 0.85rem; }
+.stats-table th, .stats-table td { border: 1px solid var(--dim); padding: 10px; text-align: left; }
+.stats-table th { color: var(--gold); font-family: 'Bebas Neue'; }
 
 #yt-player { position: absolute; left: -9999px; }
-
-@media (max-width: 400px) {
-    .tcell-input { width: 24px; height: 32px; font-size: 1.3rem; }
-    .cards-grid { grid-template-columns: repeat(3, 1fr); }
-    h1 { font-size: 1.5rem; }
-}
+@media (max-width: 600px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } .tcell-input { width: 28px; height: 38px; font-size: 1.5rem; } }
 </style>
 </head>
 <body>
@@ -89,47 +76,40 @@ h1 { font-family: 'Bebas Neue'; font-size: 1.8rem; color: var(--gold); }
 </header>
 
 <div class="info-area">
-    <div class="intro-box" id="introText">Yuklanmoqda...</div>
-    <div class="fact-display-box" id="factDisplay">G'ildirakni aylantiring!</div>
+    <div class="intro-box" id="introText">Film ma'lumotlari yuklanmoqda...</div>
+    <div class="fact-display-box" id="factDisplay">Kino haqida fakt olish uchun kartalardan birini bosing!</div>
 </div>
 
 <div class="game-stats">
-  <div class="stat"><span class="stat-val" id="roundScore">15</span></div>
-  <div class="stat"><span class="stat-val" id="totalScore">0</span></div>
-</div>
-
-<div class="wheel-container">
-  <div class="wheel-marker">▼</div>
-  <div class="wheel-wrap" id="wheelWrap"><canvas id="wheel"></canvas></div>
+  <div class="stat-item"><span class="stat-label">ROUND</span><span class="stat-val" id="roundScore">15</span></div>
+  <div class="stat-item"><span class="stat-label">JAMI</span><span class="stat-val" id="totalScore">0</span></div>
 </div>
 
 <div class="title-cells" id="titleGrid"></div>
 <div class="cards-grid" id="cardsGrid"></div>
 
-<div style="text-align:center; margin-bottom:40px;">
-  <button onclick="skipRound()" style="background:transparent; border:2px solid var(--red); color:var(--red); padding:10px 20px; font-family:'Bebas Neue'; font-size:1.1rem; cursor:pointer; border-radius:5px;">BILMAYMAN / SKIP</button>
-</div>
+<button class="btn-skip" onclick="skipRound()">BILMAYMAN / SKIP</button>
 
 <div class="overlay" id="resultModal">
   <div class="modal">
-    <h2 id="rTitle" style="font-family:'Bebas Neue'; font-size:2.5rem;"></h2>
-    <p id="rFilm" style="color:var(--gold); font-size:1.4rem; font-weight:bold; margin-bottom:15px;"></p>
-    <button onclick="nextRound()" style="background:var(--gold); padding:12px 30px; border:none; font-family:'Bebas Neue'; font-size:1.2rem; cursor:pointer; border-radius:5px;">DAVOM ETISH →</button>
+    <h2 id="rTitle" style="font-family:'Bebas Neue'; font-size:3rem;"></h2>
+    <p id="rFilm" style="color:var(--gold); font-size:1.8rem; font-weight:bold; margin:15px 0;"></p>
+    <button onclick="nextRound()" style="background:var(--gold); padding:15px 40px; border:none; font-family:'Bebas Neue'; font-size:1.5rem; cursor:pointer; border-radius:5px;">KEYINGI FILM →</button>
   </div>
 </div>
 
 <div class="overlay" id="finalModal">
   <div class="modal">
-    <h2 style="font-family:'Bebas Neue'; font-size:2rem; color:var(--gold);">NATIJA</h2>
-    <div style="font-size:3.5rem; font-weight:bold; margin:5px 0;" id="fTotal">0</div>
-    <p id="fRating" style="font-style:italic; margin-bottom:15px; font-size: 0.9rem;"></p>
-    <div style="max-height: 200px; overflow-y: auto;">
+    <h2 style="font-family:'Bebas Neue'; font-size:2.5rem; color:var(--gold);">O'YIN YAKUNLANDI!</h2>
+    <div style="font-size:4.5rem; font-weight:bold; margin:10px 0;" id="fTotal">0</div>
+    <p id="fRating" style="font-style:italic; margin-bottom:20px;"></p>
+    <div style="max-height: 250px; overflow-y: auto;">
         <table class="stats-table" id="statsTable">
           <thead><tr><th>#</th><th>Film</th><th>Ball</th></tr></thead>
           <tbody></tbody>
         </table>
     </div>
-    <button onclick="location.reload()" style="background:var(--gold); padding:12px 30px; border:none; font-family:'Bebas Neue'; font-size:1.2rem; cursor:pointer; border-radius:5px; margin-top:15px;">QAYTADAN</button>
+    <button onclick="location.reload()" style="background:var(--gold); padding:15px 40px; border:none; font-family:'Bebas Neue'; font-size:1.5rem; cursor:pointer; border-radius:5px; margin-top:20px;">QAYTADAN BOSHLASH</button>
   </div>
 </div>
 
@@ -139,33 +119,6 @@ const ICONS = {"YIL":"📅","REJISSYOR":"🎬","AKTYOR":"🎭","JANR":"🌀","SA
 
 let allMovies = [], currentIndex = 0, roundScore = 15, totalScore = 0;
 let spunIndices = [], revealedLetters = new Set(), currentMovie = null, gameLog = [];
-
-const canvas = document.getElementById('wheel'), ctx = canvas.getContext('2d'), wrap = document.getElementById('wheelWrap');
-let size = 180, center = 90, angle = 0, speed = 0, isDragging = false, startX, startY, lastT;
-canvas.width = size; canvas.height = size;
-
-function drawWheel() {
-  ctx.clearRect(0,0,size,size);
-  let sector = (Math.PI*2)/15;
-  for(let i=0; i<15; i++) {
-    let a = angle + i*sector;
-    ctx.beginPath(); ctx.moveTo(center,center); ctx.arc(center,center,center-5,a,a+sector);
-    ctx.fillStyle = i%2===0 ? "#0d0f1d" : "#ffcc00"; ctx.fill();
-    ctx.save(); ctx.translate(center,center); ctx.rotate(a+sector/2);
-    ctx.fillStyle = i%2===0 ? "#ffcc00" : "#0d0f1d"; ctx.font = "bold 10px Montserrat";
-    ctx.fillText(i+1, center-20, 4); ctx.restore();
-  }
-}
-
-function physics(t) {
-  let dt = (t-(lastT||t))/1000; lastT = t;
-  if(!isDragging && speed!==0) {
-    angle += speed*dt; speed *= 0.985;
-    if(Math.abs(speed)<0.1) { speed=0; resolveSpin(); }
-    drawWheel();
-  }
-  requestAnimationFrame(physics);
-}
 
 let tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api";
 document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, null);
@@ -179,8 +132,8 @@ async function init() {
     const res = await fetch('films.json');
     const data = await res.json();
     allMovies = data.sort(()=>Math.random()-0.5).slice(0, 15);
-    startRound(); requestAnimationFrame(physics);
-  } catch(e) { console.log("JSON error"); }
+    startRound();
+  } catch(e) { console.log("JSON yuklashda xato"); }
 }
 
 function startRound() {
@@ -190,7 +143,7 @@ function startRound() {
   document.getElementById('introText').innerText = currentMovie.intro;
   document.getElementById('factDisplay').classList.remove('show');
   document.getElementById('progressBar').style.width = (currentIndex / 15 * 100) + "%";
-  renderCards(); renderTitle(); drawWheel();
+  renderCards(); renderTitle();
 }
 
 function renderCards() {
@@ -199,11 +152,50 @@ function renderCards() {
     const fact = currentMovie.facts[i];
     const type = (fact.match(/\[(.*?)\]/)?.[1]||"INFO").toUpperCase();
     const icon = ICONS[type] || ICONS["INFO"];
-    g.innerHTML += `<div class="card" id="card-${i}" onclick="processCardClick(${i})"><div class="card-inner"><div class="card-back"><span style="font-size:1.2rem">${icon}</span><span style="font-size:0.5rem;text-transform:uppercase;margin-top:2px;">${type}</span></div><div class="card-front" id="f-${i}"></div></div></div>`;
+    g.innerHTML += `
+      <div class="card" id="card-${i}" onclick="showClue(${i})">
+        <div class="card-inner">
+          <div class="card-back">
+            <span style="font-size:1.8rem">${icon}</span>
+            <span style="font-size:0.6rem; text-transform:uppercase; margin-top:5px; color:var(--dim); font-weight:bold;">${type}</span>
+          </div>
+          <div class="card-front" id="f-${i}"></div>
+        </div>
+      </div>`;
   }
 }
 
-function processCardClick(idx) { if(!spunIndices.includes(idx) && roundScore > 1) showClue(idx); }
+function showClue(idx) {
+  if(spunIndices.includes(idx) || roundScore <= 1) return;
+  spunIndices.push(idx);
+  const f = currentMovie.facts[idx], type = (f.match(/\[(.*?)\]/)?.[1]||"INFO").toUpperCase(), txt = f.replace(/\[.*?\]/,"").trim();
+  const icon = ICONS[type] || ICONS["INFO"];
+  const cleanTxt = txt.split(' (')[0];
+
+  document.getElementById(`f-${idx}`).innerHTML = `<div style="color:var(--gold); font-size:0.6rem; font-weight:bold;">${type}</div>`;
+  document.getElementById(`card-${idx}`).classList.add('flipped');
+
+  const display = document.getElementById('factDisplay');
+  display.innerHTML = `<span style="margin-right:10px">${icon}</span> <b>${type}:</b> ${cleanTxt}`;
+  display.classList.add('show');
+
+  if(type === "HARF") {
+    const m = f.match(/reveal:\s*(\d+)/); 
+    if(m) {
+      const pos = parseInt(m[1]);
+      revealedLetters.add(pos);
+      const input = document.getElementById(`input-${pos}`);
+      if(input) {
+        input.value = currentMovie.title.split(' (')[0][pos].toUpperCase();
+        input.classList.remove('wrong');
+        input.classList.add('correct');
+        input.disabled = true;
+      }
+    }
+  }
+  roundScore--; document.getElementById('roundScore').innerText = roundScore;
+  checkWin();
+}
 
 function renderTitle() {
   const g = document.getElementById('titleGrid'); g.innerHTML = "";
@@ -211,20 +203,20 @@ function renderTitle() {
   [...titleStr].forEach((char, i) => {
     if(!/[A-Z0-9]/.test(char)) {
       const spacer = document.createElement('div');
-      spacer.style.width = char === " " ? "10px" : "6px";
+      spacer.style.width = char === " " ? "15px" : "10px";
       spacer.innerText = char === " " ? "" : char;
       spacer.style.display = "flex"; spacer.style.alignItems = "center";
       g.appendChild(spacer);
     } else {
       const input = document.createElement('input');
       input.className = 'tcell-input'; input.maxLength = 1; input.id = `input-${i}`;
-      input.setAttribute('inputmode', 'text');
       if(revealedLetters.has(i)) { input.value = char; input.disabled = true; input.classList.add('correct'); }
       input.addEventListener('input', (e) => {
         const val = e.target.value.toUpperCase();
         e.target.classList.remove('wrong', 'correct');
-        if(val === char) { e.target.classList.add('correct'); checkWin(); focusNext(i); }
+        if(val === char) { e.target.classList.add('correct'); focusNext(i); }
         else if(val !== "") { e.target.classList.add('wrong'); }
+        checkWin();
       });
       input.addEventListener('keydown', (e) => { if(e.key === 'Backspace' && !e.target.value) focusPrev(i); });
       g.appendChild(input);
@@ -234,34 +226,6 @@ function renderTitle() {
 
 function focusNext(idx) { for(let i=idx+1; i<100; i++) { const el=document.getElementById(`input-${i}`); if(el&&!el.disabled){el.focus(); break;} } }
 function focusPrev(idx) { for(let i=idx-1; i>=0; i--) { const el=document.getElementById(`input-${i}`); if(el&&!el.disabled){el.focus(); break;} } }
-
-function resolveSpin() {
-  let pick = Math.floor(Math.random()*15);
-  while(spunIndices.includes(pick)) pick = Math.floor(Math.random()*15);
-  showClue(pick);
-}
-
-function showClue(idx) {
-  if(roundScore <= 1) return;
-  spunIndices.push(idx);
-  const f = currentMovie.facts[idx], type = (f.match(/\[(.*?)\]/)?.[1]||"INFO").toUpperCase(), txt = f.replace(/\[.*?\]/,"").trim();
-  const icon = ICONS[type] || ICONS["INFO"];
-  const cleanTxt = txt.split(' (')[0];
-  document.getElementById(`card-${idx}`).classList.add('flipped');
-  const display = document.getElementById('factDisplay');
-  display.innerHTML = `<span>${icon}</span> <b>${type}:</b> ${cleanTxt}`;
-  display.classList.add('show');
-  if(type === "HARF") {
-    const m = f.match(/reveal:\s*(\d+)/); 
-    if(m) {
-      const pos = parseInt(m[1]); revealedLetters.add(pos);
-      const input = document.getElementById(`input-${pos}`);
-      if(input) { input.value = currentMovie.title.split(' (')[0][pos].toUpperCase(); input.classList.remove('wrong'); input.classList.add('correct'); input.disabled = true; }
-    }
-  }
-  roundScore--; document.getElementById('roundScore').innerText = roundScore;
-  checkWin();
-}
 
 function checkWin() {
   const titleStr = currentMovie.title.split(' (')[0].toUpperCase();
@@ -293,18 +257,13 @@ function nextRound() {
 
 function showFinal() {
   document.getElementById('fTotal').innerText = totalScore;
-  const rating = totalScore >= 140 ? "Siz Holywoodda Tarantino darajasidasiz! 🏆" : (totalScore >= 100 ? "Haqiqiy kinoman ekansiz! 🥇" : (totalScore >= 60 ? "Yaxshi natija! 🥈" : "Kino ko'rishni boshlash kerak. 😅"));
+  const rating = totalScore >= 140 ? "Siz Holywoodda Tarantino darajasidasiz! 🏆" : (totalScore >= 100 ? "Haqiqiy kinoman ekansiz! 🥇" : (totalScore >= 60 ? "Yaxshi natija! 🥈" : "Faqat novella ko'rasiz shekilli? 😅"));
   document.getElementById('fRating').innerText = rating;
   const tbody = document.querySelector('#statsTable tbody');
   tbody.innerHTML = "";
   gameLog.forEach((item, idx) => { tbody.innerHTML += `<tr><td>${idx+1}</td><td>${item.title}</td><td>${item.score}</td></tr>`; });
   document.getElementById('finalModal').classList.add('show');
 }
-
-// Mobile-friendly interaction
-wrap.addEventListener('touchstart', (e) => { isDragging=true; speed=0; startX=e.touches[0].clientX; });
-window.addEventListener('touchmove', (e) => { if(!isDragging) return; speed=25; angle+=(e.touches[0].clientX-startX)*0.01; startX=e.touches[0].clientX; drawWheel(); });
-window.addEventListener('touchend', () => { isDragging=false; speed=25; });
 
 init();
 </script>
