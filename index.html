@@ -13,59 +13,54 @@
 * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
 body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
-/* Progress Bar */
 .progress-container { width: 100%; height: 6px; background: #111; position: sticky; top: 0; z-index: 1000; }
 .progress-bar { height: 100%; width: 0%; background: var(--gold); box-shadow: 0 0 10px var(--gold); transition: 0.5s; }
 
 header { text-align: center; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: #000; }
-h1 { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--gold); letter-spacing: 2px; }
+h1 { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--gold); }
 .round-counter { font-family: 'Space Mono'; color: var(--gold); font-size: 1.2rem; }
 
-/* Spoiler & Fact Display */
 .info-area { max-width: 850px; margin: 15px auto; padding: 0 15px; }
-.intro-box { background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; padding: 15px; position: relative; font-style: italic; font-size: 0.95rem; text-align: center; color: #eee; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+.intro-box { background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; padding: 15px; font-style: italic; font-size: 0.95rem; text-align: center; color: #eee; min-height: 60px; display: flex; align-items: center; justify-content: center; }
 .fact-display-box { 
     background: rgba(0, 168, 255, 0.15); border: 1px solid var(--blue); border-left: 6px solid var(--blue); 
-    padding: 20px; border-radius: 6px; min-height: 70px; display: flex; align-items: center; 
-    justify-content: center; font-weight: bold; font-size: 1.1rem; color: #fff;
-    opacity: 0; transform: translateY(10px); transition: 0.4s;
+    padding: 15px; border-radius: 6px; min-height: 60px; display: flex; align-items: center; 
+    justify-content: center; font-weight: bold; font-size: 1.1rem; color: #fff; opacity: 0; transition: 0.3s;
 }
-.fact-display-box.show { opacity: 1; transform: translateY(0); }
+.fact-display-box.show { opacity: 1; }
 
 .game-stats { display: flex; justify-content: center; gap: 40px; margin: 10px 0; font-family: 'Space Mono'; }
 .stat-val { font-size: 2.2rem; color: var(--gold); font-weight: bold; }
 
-/* Wheel */
 .wheel-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; }
 .wheel-wrap { width: 220px; height: 220px; position: relative; border-radius: 50%; border: 6px solid var(--panel); box-shadow: 0 0 20px var(--gold-glow); cursor: grab; }
 #wheel { width: 100%; height: 100%; border-radius: 50%; }
 .wheel-marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 1.8rem; z-index: 10; }
 
-/* Crossword */
-.title-cells { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 20px 0; padding: 0 15px; }
-.tcell-input { width: 36px; height: 45px; background: #111; border: 1px solid var(--dim); border-bottom: 4px solid var(--gold); text-align: center; font-family: 'Bebas Neue'; font-size: 1.9rem; color: var(--gold); border-radius: 4px; outline: none; transition: 0.2s; }
+.title-cells { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 20px 0; padding: 0 10px; }
+.tcell-input { 
+    width: 36px; height: 45px; background: #111; border: 1px solid var(--dim); 
+    border-bottom: 4px solid var(--gold); text-align: center; font-family: 'Bebas Neue'; 
+    font-size: 1.9rem; color: var(--gold); border-radius: 4px; outline: none; transition: 0.2s; 
+}
 .tcell-input.correct { border-color: var(--green) !important; background: rgba(46, 213, 115, 0.2); text-shadow: 0 0 8px var(--green); }
-.tcell-input.wrong { border-color: var(--red) !important; background: rgba(255, 71, 87, 0.2); }
+.tcell-input.wrong { border-color: var(--red) !important; background: rgba(255, 71, 87, 0.2); color: var(--red); }
 
-/* Cards Grid */
 .cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 850px; margin: 20px auto; padding: 0 15px; }
 .card { aspect-ratio: 3/4; perspective: 1000px; }
 .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
 .card.flipped .card-inner { transform: rotateY(180deg); }
 .card-back, .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); }
-.card-back { background: #101326; color: var(--gold); cursor: pointer; border: 1px solid rgba(255, 204, 0, 0.2); }
-.card-back:hover { background: #1a1e36; border-color: var(--gold); }
-.card-label { font-size: 0.6rem; text-transform: uppercase; margin-top: 5px; color: var(--dim); font-weight: bold; }
-.card-front { background: #081226; transform: rotateY(180deg); border-color: var(--gold); padding: 8px; text-align: center; }
-
-/* Final Stats Table */
-.stats-table { width: 100%; margin: 20px 0; border-collapse: collapse; font-size: 0.85rem; background: #000; color: #fff; }
-.stats-table th, .stats-table td { border: 1px solid var(--dim); padding: 10px; text-align: left; }
-.stats-table th { background: var(--panel); color: var(--gold); font-family: 'Bebas Neue'; font-size: 1.1rem; }
+.card-back { background: #101326; color: var(--gold); cursor: pointer; }
+.card-front { background: #081226; transform: rotateY(180deg); border-color: var(--gold); padding: 5px; text-align: center; }
 
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
 .overlay.show { display: flex; }
 .modal { background: var(--panel); padding: 30px; border: 2px solid var(--gold); border-radius: 15px; text-align: center; width: 100%; max-width: 600px; }
+
+.stats-table { width: 100%; margin: 20px 0; border-collapse: collapse; font-size: 0.85rem; }
+.stats-table th, .stats-table td { border: 1px solid var(--dim); padding: 10px; text-align: left; }
+.stats-table th { background: var(--panel); color: var(--gold); font-family: 'Bebas Neue'; }
 
 #yt-player { position: absolute; left: -9999px; }
 @media (max-width: 600px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } .tcell-input { width: 30px; height: 40px; font-size: 1.6rem; } }
@@ -82,8 +77,8 @@ h1 { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--gold); letter-sp
 </header>
 
 <div class="info-area">
-    <div class="intro-box" id="introText">Film ma'lumotlari yuklanmoqda...</div>
-    <div class="fact-display-box" id="factDisplay">G'ildirakni aylantiring yoki kartani tanlang!</div>
+    <div class="intro-box" id="introText">...</div>
+    <div class="fact-display-box" id="factDisplay">G'ildirakni aylantiring!</div>
 </div>
 
 <div class="game-stats">
@@ -105,7 +100,7 @@ h1 { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--gold); letter-sp
 
 <div class="overlay" id="resultModal">
   <div class="modal">
-    <h2 id="rTitle" style="font-family:'Bebas Neue'; font-size:3.5rem; margin-bottom:10px;"></h2>
+    <h2 id="rTitle" style="font-family:'Bebas Neue'; font-size:3.5rem;"></h2>
     <p id="rFilm" style="color:var(--gold); font-size:1.8rem; font-weight:bold; margin-bottom:20px;"></p>
     <button onclick="nextRound()" style="background:var(--gold); padding:15px 40px; border:none; font-family:'Bebas Neue'; font-size:1.5rem; cursor:pointer; border-radius:5px;">KEYINGI FILM →</button>
   </div>
@@ -129,17 +124,10 @@ h1 { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--gold); letter-sp
 <script>
 const TRACKS = ["I0cZukTFXNw", "nj4mXWKgKXc", "8kooIgKESYE", "X-jdl9hcCeg"];
 const ICONS = {"YIL":"📅","REJISSYOR":"🎬","AKTYOR":"🎭","JANR":"🌀","SAHNA":"🎞️","IQTIBOS":"💬","MUSIQA":"🎵","MUKOFOT":"🏆","DETAL":"🧩","HARF":"🔤","INFO":"ℹ️"};
-const RATINGS = [
-  { min: 140, msg: "Siz Holywoodda Tarantino darajasidasiz! 🏆" },
-  { min: 100, msg: "Haqiqiy kinoman ekansiz! Malades! 🥇" },
-  { min: 60, msg: "Yaxshi natija, lekin hali ko'p kino ko'rish kerak. 🥈" },
-  { min: 0, msg: "Siz faqat televizorda novella ko'rasiz shekilli? 😅" }
-];
 
 let allMovies = [], currentIndex = 0, roundScore = 15, totalScore = 0;
 let spunIndices = [], revealedLetters = new Set(), currentMovie = null, gameLog = [];
 
-// Wheel Physics
 const canvas = document.getElementById('wheel'), ctx = canvas.getContext('2d'), wrap = document.getElementById('wheelWrap');
 let size = 220, center = 110, angle = 0, speed = 0, isDragging = false, startX, startY, lastT;
 canvas.width = size; canvas.height = size;
@@ -167,7 +155,6 @@ function physics(t) {
   requestAnimationFrame(physics);
 }
 
-// YT API
 let tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api";
 document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, null);
 function onYouTubeIframeAPIReady() {
@@ -190,11 +177,7 @@ function startRound() {
   document.getElementById('roundScore').innerText = "15";
   document.getElementById('introText').innerText = currentMovie.intro;
   document.getElementById('factDisplay').classList.remove('show');
-  document.getElementById('factDisplay').innerText = "G'ildirakni aylantiring!";
-  
-  // Progress Bar
   document.getElementById('progressBar').style.width = (currentIndex / 15 * 100) + "%";
-
   renderCards(); renderTitle(); drawWheel();
 }
 
@@ -204,13 +187,12 @@ function renderCards() {
     const fact = currentMovie.facts[i];
     const type = (fact.match(/\[(.*?)\]/)?.[1]||"INFO").toUpperCase();
     const icon = ICONS[type] || ICONS["INFO"];
-    
     g.innerHTML += `
       <div class="card" id="card-${i}" onclick="processCardClick(${i})">
         <div class="card-inner">
           <div class="card-back">
             <span style="font-size:1.8rem">${icon}</span>
-            <span class="card-label">${type}</span>
+            <span style="font-size:0.6rem; text-transform:uppercase; margin-top:5px; color:var(--dim); font-weight:bold;">${type}</span>
             <span style="font-family:'Space Mono'; font-size:0.8rem; margin-top:5px;">#${i+1}</span>
           </div>
           <div class="card-front" id="f-${i}"></div>
@@ -220,33 +202,66 @@ function renderCards() {
 }
 
 function processCardClick(idx) {
-    if(spunIndices.includes(idx) || roundScore <= 1) return;
-    showClue(idx);
+    if(!spunIndices.includes(idx) && roundScore > 1) showClue(idx);
 }
 
 function renderTitle() {
   const g = document.getElementById('titleGrid'); g.innerHTML = "";
-  const t = currentMovie.title.split(' (')[0].toUpperCase();
-  [...t].forEach((c, i) => {
-    if(!/[A-Z0-9]/.test(c)) {
-      g.innerHTML += `<div style="width:12px; color:var(--dim); font-size:1.8rem; display:flex; align-items:center;">${c===" "?"":c}</div>`;
+  const titleStr = currentMovie.title.split(' (')[0].toUpperCase();
+  
+  [...titleStr].forEach((char, i) => {
+    if(!/[A-Z0-9]/.test(char)) {
+      const spacer = document.createElement('div');
+      spacer.style.width = char === " " ? "15px" : "10px";
+      spacer.style.fontSize = "1.5rem";
+      spacer.style.display = "flex"; spacer.style.alignItems = "center";
+      spacer.style.justifyContent = "center"; spacer.style.color = "var(--dim)";
+      spacer.innerText = char === " " ? "" : char;
+      g.appendChild(spacer);
     } else {
       const input = document.createElement('input');
       input.className = 'tcell-input'; input.maxLength = 1; input.id = `input-${i}`;
-      if(revealedLetters.has(i)) { input.value = c; input.disabled = true; input.classList.add('correct'); }
+      
+      if(revealedLetters.has(i)) {
+        input.value = char; input.disabled = true; input.classList.add('correct');
+      }
+      
       input.addEventListener('input', (e) => {
         const val = e.target.value.toUpperCase();
-        if(val === c) { e.target.classList.add('correct'); checkWin(); focusNext(i); }
-        else if(val !== "") { e.target.classList.add('wrong'); setTimeout(()=>e.target.classList.remove('wrong'), 500); }
+        e.target.classList.remove('wrong', 'correct');
+        if(val === char) {
+          e.target.classList.add('correct');
+          focusNext(i);
+        } else if(val !== "") {
+          e.target.classList.add('wrong');
+        }
+        checkWin();
       });
-      input.addEventListener('keydown', (e) => { if(e.key==='Backspace' && !e.target.value) focusPrev(i); });
+      
+      input.addEventListener('keydown', (e) => {
+        if(e.key === 'Backspace') {
+          e.target.classList.remove('correct', 'wrong');
+          if(!e.target.value) focusPrev(i);
+        }
+      });
       g.appendChild(input);
     }
   });
 }
 
-function focusNext(idx) { for(let i=idx+1; i<100; i++) { const el=document.getElementById(`input-${i}`); if(el&&!el.disabled){el.focus(); break;} } }
-function focusPrev(idx) { for(let i=idx-1; i>=-1; i--) { const el=document.getElementById(`input-${i}`); if(el&&!el.disabled){el.focus(); break;} } }
+function focusNext(idx) {
+  for(let i = idx + 1; i < 100; i++) {
+    const el = document.getElementById(`input-${i}`);
+    if(el && !el.disabled) { el.focus(); break; }
+  }
+}
+
+function focusPrev(idx) {
+  for(let i = idx - 1; i >= 0; i--) {
+    const el = document.getElementById(`input-${i}`);
+    if(el && !el.disabled) { el.focus(); break; }
+  }
+}
 
 function resolveSpin() {
   let pick = Math.floor(Math.random()*15);
@@ -261,26 +276,40 @@ function showClue(idx) {
   const icon = ICONS[type] || ICONS["INFO"];
   const cleanTxt = txt.split(' (')[0];
 
-  // Kartani aylantirish
   document.getElementById(`f-${idx}`).innerHTML = `<div style="color:var(--gold); font-size:0.6rem; font-weight:bold;">${type}</div>`;
   document.getElementById(`card-${idx}`).classList.add('flipped');
 
-  // Katta panelda ko'rsatish
   const display = document.getElementById('factDisplay');
   display.innerHTML = `<span style="margin-right:10px">${icon}</span> <b>${type}:</b> ${cleanTxt}`;
   display.classList.add('show');
 
   if(type === "HARF") {
     const m = f.match(/reveal:\s*(\d+)/); 
-    if(m) { revealedLetters.add(parseInt(m[1])); renderTitle(); }
+    if(m) {
+      const pos = parseInt(m[1]);
+      revealedLetters.add(pos);
+      const input = document.getElementById(`input-${pos}`);
+      if(input) {
+        // MUHIM: Xato bo'lsa ham o'chirib, to'g'ri harfni yozadi
+        input.value = currentMovie.title.split(' (')[0][pos].toUpperCase();
+        input.classList.remove('wrong');
+        input.classList.add('correct');
+        input.disabled = true;
+      }
+    }
   }
   roundScore--; document.getElementById('roundScore').innerText = roundScore;
+  checkWin();
 }
 
 function checkWin() {
-  const t = currentMovie.title.split(' (')[0].toUpperCase();
-  const win = [...t].every((c, i) => !/[A-Z0-9]/.test(c) || (document.getElementById(`input-${i}`) && document.getElementById(`input-${i}`).value.toUpperCase() === c));
-  if(win) setTimeout(() => endRound(true), 300);
+  const titleStr = currentMovie.title.split(' (')[0].toUpperCase();
+  const isComplete = [...titleStr].every((char, i) => {
+    if(!/[A-Z0-9]/.test(char)) return true;
+    const input = document.getElementById(`input-${i}`);
+    return input && input.value.toUpperCase() === char;
+  });
+  if(isComplete) setTimeout(() => endRound(true), 300);
 }
 
 function skipRound() { endRound(false); }
@@ -298,25 +327,19 @@ function endRound(win) {
 function nextRound() {
   document.getElementById('resultModal').classList.remove('show');
   currentIndex++;
-  if(currentIndex < 15) {
-      startRound();
-  } else {
-      document.getElementById('progressBar').style.width = "100%";
-      showFinal();
-  }
+  if(currentIndex < 15) startRound(); else showFinal();
 }
 
 function showFinal() {
   document.getElementById('fTotal').innerText = totalScore;
-  let r = RATINGS.find(x => totalScore >= x.min);
-  document.getElementById('fRating').innerText = r.msg;
+  const rating = totalScore >= 140 ? "Siz Holywoodda Tarantino darajasidasiz! 🏆" : (totalScore >= 100 ? "Haqiqiy kinoman ekansiz! 🥇" : (totalScore >= 60 ? "Yaxshi natija! 🥈" : "Faqat novella ko'rasiz shekilli? 😅"));
+  document.getElementById('fRating').innerText = rating;
   const tbody = document.querySelector('#statsTable tbody');
   tbody.innerHTML = "";
   gameLog.forEach((item, idx) => { tbody.innerHTML += `<tr><td>${idx+1}</td><td>${item.title}</td><td>${item.score}</td></tr>`; });
   document.getElementById('finalModal').classList.add('show');
 }
 
-// Interaction
 wrap.addEventListener('mousedown', (e) => { isDragging=true; speed=0; startX=e.clientX; });
 wrap.addEventListener('touchstart', (e) => { isDragging=true; speed=0; startX=e.touches[0].clientX; });
 window.addEventListener('mousemove', (e) => { if(!isDragging) return; speed=25; angle+=(e.clientX-startX)*0.01; startX=e.clientX; drawWheel(); });
