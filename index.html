@@ -16,11 +16,11 @@
 body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
 header { text-align: center; padding: 20px; border-bottom: 2px solid var(--gold); box-shadow: 0 0 15px var(--gold-glow); }
-h1 { font-family: 'Bebas Neue'; font-size: 3rem; letter-spacing: 4px; color: var(--gold); }
+h1 { font-family: 'Bebas Neue'; font-size: clamp(2.5rem, 8vw, 3.5rem); letter-spacing: 4px; color: var(--gold); }
 
-.intro-box { background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; padding: 15px; position: relative; max-width: 800px; margin: 20px auto; }
+.intro-box { background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; padding: 15px; position: relative; max-width: 800px; margin: 20px auto; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
 .intro-box::before { content: "TA'RIF (SPOILER)"; position: absolute; top: -10px; left: 15px; background: var(--gold); color: #000; font-size: 0.65rem; padding: 2px 8px; font-weight: bold; border-radius: 4px; }
-.intro-text { font-size: 0.85rem; line-height: 1.4; font-style: italic; color: #ccc; text-align: center; }
+.intro-text { font-size: 0.9rem; line-height: 1.4; font-style: italic; color: #ccc; text-align: center; }
 
 .game-stats { display: flex; justify-content: center; gap: 40px; margin: 10px 0; }
 .stat-value { font-family: 'Space Mono'; font-size: 2rem; color: var(--gold); font-weight: bold; }
@@ -31,18 +31,17 @@ h1 { font-family: 'Bebas Neue'; font-size: 3rem; letter-spacing: 4px; color: var
 .wheel-marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 1.8rem; z-index: 10; }
 
 .fact-box { background: rgba(0, 168, 255, 0.1); border: 1px solid var(--blue); border-left: 5px solid var(--blue); padding: 12px; border-radius: 4px; display: none; max-width: 800px; margin: 15px auto; }
-.fact-box.show { display: block; }
+.fact-box.show { display: block; animation: fadeIn 0.4s; }
 
-/* Krosvord Katakchalari - TUZATILDI */
 .title-cells { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 0 15px; margin-bottom: 25px; }
 .tcell-input {
   width: 35px; height: 42px;
   background: #111; border: 1px solid var(--dim); border-bottom: 3px solid var(--gold-glow);
   text-align: center; font-family: 'Bebas Neue'; font-size: 1.8rem; color: var(--gold);
-  border-radius: 4px; outline: none; transition: 0.3s;
+  border-radius: 4px; outline: none; transition: 0.2s;
 }
-.tcell-input.correct { border-color: var(--green) !important; background: rgba(46, 213, 115, 0.1); text-shadow: 0 0 8px var(--green); }
-.tcell-input.wrong { border-color: var(--red) !important; background: rgba(255, 71, 87, 0.1); }
+.tcell-input.correct { border-color: var(--green) !important; background: rgba(46, 213, 115, 0.15); text-shadow: 0 0 8px var(--green); }
+.tcell-input.wrong { border-color: var(--red) !important; background: rgba(255, 71, 87, 0.15); color: var(--red); }
 .tcell-input:disabled { opacity: 1; border-color: var(--gold); cursor: default; }
 
 .cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-width: 800px; margin: 15px auto; padding: 0 15px; }
@@ -55,13 +54,16 @@ h1 { font-family: 'Bebas Neue'; font-size: 3rem; letter-spacing: 4px; color: var
 
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.97); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
 .overlay.show { display: flex; }
-.modal { background: var(--panel); padding: 30px; border: 2px solid var(--gold); border-radius: 12px; text-align: center; width: 100%; max-width: 450px; }
+.modal { background: var(--panel); padding: 30px; border: 2px solid var(--gold); border-radius: 12px; text-align: center; width: 100%; max-width: 450px; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
 .modal-title { font-family: 'Bebas Neue'; font-size: 2.8rem; }
 .modal-title.red { color: var(--red); }
 .btn { font-family: 'Bebas Neue'; font-size: 1.2rem; padding: 10px 30px; border-radius: 5px; cursor: pointer; border: none; transition: 0.3s; margin-top: 10px; }
 .btn-skip { background: transparent; color: var(--red); border: 2px solid var(--red); display: block; margin: 20px auto; }
+.btn-skip:hover { background: rgba(255, 71, 87, 0.1); }
 
 #yt-player { position: absolute; left: -9999px; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 600px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } .tcell-input { width: 30px; height: 38px; font-size: 1.5rem; } }
 </style>
 </head>
 <body>
@@ -114,14 +116,14 @@ const RATINGS = [
   { min: 110, msg: "Daxshat! Kino olami ensiklopediyasi ekansiz-ku!" },
   { min: 85, msg: "Juda yaxshi natija. Haqiqiy kinoman!" },
   { min: 45, msg: "O'rtacha. Ba'zi klassikalarni ko'rish kerak." },
-  { min: 10, msg: "Siz faqat televizorda novella ko'rsayiz kerak-a?" },
+  { min: 10, msg: "Novella ko'rganingiz yaxshi shekilli? 😅" },
   { min: 0, msg: "Saytni adashib ochib qoldingizmi? 😅" }
 ];
 
 let allMovies = [], currentIndex = 0, roundScore = 15, totalScore = 0;
 let spunIndices = [], revealedLetters = new Set(), currentMovie = null;
 
-// Wheel Physics
+// Wheel Logic
 const canvas = document.getElementById('wheel'), ctx = canvas.getContext('2d'), wrap = document.getElementById('wheelWrap');
 let size = 220, center = 110, angle = 0, speed = 0, isDragging = false, startX, startY, lastT;
 canvas.width = size; canvas.height = size;
@@ -159,7 +161,7 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('yt-player', { height: '0', width: '0', videoId: track, playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': track }, events: { 'onReady': (e) => e.target.setVolume(20) } });
 }
 
-// Interaction
+// Input Handlers
 function startDrag(e) { if(roundScore>1 && !isDragging) { isDragging=true; speed=0; startX=e.clientX || e.touches[0].clientX; startY=e.clientY || e.touches[0].clientY; } }
 function drag(e) {
   if(!isDragging) return;
@@ -185,9 +187,10 @@ function resolveSpin() {
 async function init() {
   try {
     const res = await fetch('films.json');
-    allMovies = (await res.json()).sort(() => Math.random()-0.5).slice(0,10);
+    const data = await res.json();
+    allMovies = data.sort(() => Math.random()-0.5).slice(0,10);
     startRound(); requestAnimationFrame(physics);
-  } catch(e) { document.getElementById('introText').innerText = "films.json topilmadi!"; }
+  } catch(e) { document.getElementById('introText').innerText = "films.json yuklashda xatolik!"; }
 }
 
 function startRound() {
@@ -204,7 +207,6 @@ function renderCards() {
   for(let i=0; i<15; i++) g.innerHTML += `<div class="card" id="card-${i}"><div class="card-inner"><div class="card-back">${i+1}</div><div class="card-front" id="f-${i}"></div></div></div>`;
 }
 
-// TUZATILGAN: Har bir harfni to'liq tekshirish
 function renderTitle() {
   const g = document.getElementById('titleGrid'); g.innerHTML = "";
   const titleStr = currentMovie.title.split(' (')[0].toUpperCase();
@@ -213,7 +215,6 @@ function renderTitle() {
     if(!/[A-Z0-9]/.test(char)) {
       const spacer = document.createElement('div');
       spacer.style.width = char === " " ? "15px" : "10px";
-      spacer.style.fontSize = "1.5rem";
       spacer.style.display = "flex"; spacer.style.alignItems = "center";
       spacer.style.justifyContent = "center"; spacer.style.color = "var(--dim)";
       spacer.innerText = char === " " ? "" : char;
@@ -222,30 +223,29 @@ function renderTitle() {
       const input = document.createElement('input');
       input.className = 'tcell-input'; input.maxLength = 1; input.id = `input-${i}`;
       
-      // Agar "HARF" ochilgan bo'lsa
       if(revealedLetters.has(i)) {
         input.value = char; input.disabled = true; input.classList.add('correct');
       }
       
       input.addEventListener('input', (e) => {
         const val = e.target.value.toUpperCase();
+        e.target.classList.remove('wrong', 'correct'); // Oldingi statusni tozalash
+        
         if(val === char) {
-          e.target.classList.remove('wrong');
           e.target.classList.add('correct');
           focusNext(i);
-        } else if(val === "") {
-          e.target.classList.remove('wrong', 'correct');
-        } else {
-          e.target.classList.remove('correct');
+        } else if(val !== "") {
           e.target.classList.add('wrong');
         }
         checkWin();
       });
       
       input.addEventListener('keydown', (e) => {
-        if(e.key === 'Backspace' && !e.target.value) focusPrev(i);
+        if(e.key === 'Backspace') {
+          if(!e.target.value) focusPrev(i);
+          else e.target.classList.remove('wrong', 'correct');
+        }
       });
-      
       g.appendChild(input);
     }
   });
@@ -277,23 +277,21 @@ function checkWin() {
 function showClue(idx) {
   if(roundScore <= 1) return;
   spunIndices.push(idx);
-  const fact = currentMovie.facts[idx];
-  const type = (fact.match(/\[(.*?)\]/)?.[1]||"INFO").toUpperCase();
-  const text = fact.replace(/\[.*?\]/,"").trim();
+  const f = currentMovie.facts[idx];
+  const type = (f.match(/\[(.*?)\]/)?.[1]||"INFO").toUpperCase();
+  const text = f.replace(/\[.*?\]/,"").trim();
+  const cleanDisplay = type === "HARF" ? text.split(' (')[0] : text;
   const icon = ICONS[type] || "ℹ️";
   
-  // Tozalash (reveal qismini foydalanuvchiga ko'rsatmaslik)
-  const cleanDisplay = type === "HARF" ? text.split(' (')[0] : text;
-
   document.getElementById(`f-${idx}`).innerHTML = `<div style="font-size:0.45rem; color:var(--gold); font-weight:bold">${type}</div><div style="font-size:0.55rem; line-height:1.1">${cleanDisplay}</div>`;
   document.getElementById(`card-${idx}`).classList.add('flipped');
-  document.getElementById('factText').innerHTML = `${icon} <b>${type}:</b> ${cleanDisplay}`;
+  document.getElementById('factText').innerHTML = `${icon} <b>${type}:</b> ${cleanText(text)}`;
   document.getElementById('factBox').classList.add('show');
 
   if(type === "HARF") {
-    const match = fact.match(/reveal:\s*(\d+)/);
-    if(match) {
-      const pos = parseInt(match[1]);
+    const m = f.match(/reveal:\s*(\d+)/);
+    if(m) {
+      const pos = parseInt(m[1]);
       revealedLetters.add(pos);
       const input = document.getElementById(`input-${pos}`);
       if(input) {
@@ -306,20 +304,21 @@ function showClue(idx) {
   roundScore--; document.getElementById('roundScore').innerText = roundScore;
 }
 
+function cleanText(t) { return t.split(' (reveal:')[0]; }
+
 function skipRound() { endRound(false); }
 
 function endRound(win) {
   const rTitle = document.getElementById('rTitle');
   if(win) {
     totalScore += roundScore;
-    rTitle.innerText = "TO'G'RI!"; rTitle.className = "modal-title"; rTitle.style.color = "var(--gold)";
+    rTitle.innerText = "TO'G'RI!"; rTitle.style.color = "var(--gold)";
   } else {
     rTitle.innerText = "AFSUS!"; rTitle.className = "modal-title red";
-    // Hammasini ochish
     for(let i=0; i<15; i++) {
         if(!spunIndices.includes(i)) {
             const f = currentMovie.facts[i], type = (f.match(/\[(.*?)\]/)?.[1]||"INFO").toUpperCase(), txt = f.replace(/\[.*?\]/,"").trim();
-            document.getElementById(`f-${i}`).innerHTML = `<div style="font-size:0.4rem; color:#888">${type}</div><div style="font-size:0.5rem">${txt}</div>`;
+            document.getElementById(`f-${i}`).innerHTML = `<div style="font-size:0.4rem; color:#888">${type}</div><div style="font-size:0.5rem">${cleanText(txt)}</div>`;
             document.getElementById(`card-${i}`).classList.add('flipped');
         }
     }
@@ -340,7 +339,7 @@ function nextRound() {
 }
 
 function showFinal() {
-  let r = RATINGS.find(x => totalScore >= x.min);
+  let r = RATINGS.find(x => totalScore >= x.min) || RATINGS[RATINGS.length-1];
   document.getElementById('fTotal').innerText = totalScore;
   document.getElementById('fRating').innerText = r.msg;
   document.getElementById('finalModal').classList.add('show');
