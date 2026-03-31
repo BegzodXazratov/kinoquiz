@@ -51,7 +51,7 @@ h1 { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--gold); }
 .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
 .card.flipped .card-inner { transform: rotateY(180deg); }
 .card-back, .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); }
-.card-back { background: #101326; color: var(--gold); cursor: pointer; }
+.card-back { background: #101326; color: var(--gold); cursor: pointer; border: 1px solid rgba(255, 204, 0, 0.15); }
 .card-front { background: #081226; transform: rotateY(180deg); border-color: var(--gold); padding: 5px; text-align: center; }
 
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
@@ -283,16 +283,17 @@ function showClue(idx) {
   display.innerHTML = `<span style="margin-right:10px">${icon}</span> <b>${type}:</b> ${cleanTxt}`;
   display.classList.add('show');
 
+  // TUZATILGAN HARF MANTIQI:
   if(type === "HARF") {
     const m = f.match(/reveal:\s*(\d+)/); 
     if(m) {
       const pos = parseInt(m[1]);
       revealedLetters.add(pos);
+      // Katakni topib, to'g'ri harfni yozish va bloklash
       const input = document.getElementById(`input-${pos}`);
       if(input) {
-        // MUHIM: Xato bo'lsa ham o'chirib, to'g'ri harfni yozadi
         input.value = currentMovie.title.split(' (')[0][pos].toUpperCase();
-        input.classList.remove('wrong');
+        input.classList.remove('wrong'); // Xato yozilgan bo'lsa ramkani tozalash
         input.classList.add('correct');
         input.disabled = true;
       }
@@ -340,6 +341,7 @@ function showFinal() {
   document.getElementById('finalModal').classList.add('show');
 }
 
+// Interaction
 wrap.addEventListener('mousedown', (e) => { isDragging=true; speed=0; startX=e.clientX; });
 wrap.addEventListener('touchstart', (e) => { isDragging=true; speed=0; startX=e.touches[0].clientX; });
 window.addEventListener('mousemove', (e) => { if(!isDragging) return; speed=25; angle+=(e.clientX-startX)*0.01; startX=e.clientX; drawWheel(); });
