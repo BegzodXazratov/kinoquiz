@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎬 CineLatatron 300</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* CSS qismi o'sha chiroyli dizaynda qoladi */
+:root {
+  --bg: #07080f; --panel: #0e1020; --card-bg: #131628;
+  --card-face: #0a1830; --gold: #d4a843; --gold-dim: #8a6c28;
+  --red: #c0392b; --blue: #1a3a5c; --text: #e8dcc8; --dim: #5a546a; --green: #2ecc71;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: 'Crimson Pro', serif; min-height: 100vh; }
+.filmstrip { height: 36px; background: #111; display: flex; align-items: center; position: relative; }
+.filmstrip::before { content: ''; position: absolute; inset: 8px 0; background: repeating-linear-gradient(90deg, #111 0px, #111 14px, #333 14px, #333 18px, #111 18px, #111 32px); border-top: 2px solid #2a2a2a; border-bottom: 2px solid #2a2a2a; }
+header { text-align: center; padding: 20px 16px 8px; }
+h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: 0.1em; color: var(--gold); }
+.subtitle { font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--dim); }
+.game-meta { display: flex; justify-content: space-between; max-width: 640px; margin: 15px auto; padding: 0 20px; }
+.score-value { font-family: 'Space Mono', monospace; font-size: 1.8rem; color: var(--gold); font-weight: bold; }
+.score-label { font-size: 0.6rem; text-transform: uppercase; color: var(--dim); }
+.drum-section { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px; }
+.drum { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--gold-dim); position: relative; transition: transform 0.1s; background: radial-gradient(circle, #1a2a4a, #0a1020); }
+.drum::before { content: '🎬'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; }
+.drum.spinning { animation: drumRotate 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes drumRotate { 100% { transform: rotate(720deg); } }
+.spin-btn { font-family: 'Bebas Neue'; font-size: 1.5rem; background: var(--gold); color: #000; border: none; padding: 10px 40px; cursor: pointer; border-radius: 4px; }
+.cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-width: 640px; margin: 0 auto; padding: 0 15px; }
+.card { aspect-ratio: 3/4; perspective: 1000px; }
+.card-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s; }
+.card.flipped .card-inner { transform: rotateY(180deg); }
+.card-back, .card-front { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 6px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--dim); }
+.card-back { background: var(--card-bg); color: var(--dim); font-size: 0.8rem; }
+.card-front { background: var(--card-face); transform: rotateY(180deg); padding: 5px; text-align: center; border-color: var(--gold-dim); }
+.clue-type { font-family: 'Space Mono'; font-size: 0.45rem; color: var(--gold); position: absolute; top: 5px; width: 100%; text-align: center; }
+.clue-text { font-size: 0.6rem; line-height: 1.3; }
+.clue-box { max-width: 640px; margin: 15px auto; padding: 0 15px; }
+.clue-inner { background: rgba(26,58,92,0.3); border-left: 4px solid var(--gold); padding: 15px; min-height: 60px; border-radius: 4px; display: flex; align-items: center; }
+.title-cells { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 15px 0; }
+.tcell { width: 30px; height: 35px; border-bottom: 2px solid var(--gold-dim); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue'; font-size: 1.3rem; color: transparent; }
+.tcell.shown { color: var(--gold); border-color: var(--gold); }
+.guess-section { display: flex; gap: 10px; justify-content: center; padding: 10px; }
+.guess-input { background: #131628; border: 1px solid var(--dim); color: #fff; padding: 10px; border-radius: 4px; flex: 1; max-width: 250px; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+.overlay.show { display: flex; }
+.modal { background: var(--panel); padding: 30px; border: 1px solid var(--gold); border-radius: 8px; text-align: center; max-width: 400px; }
+</style>
+</head>
+<body>
+
+<div class="filmstrip"></div>
+<header>
+  <h1>CINELATATRON 300</h1>
+  <p class="subtitle">300 TA FILM — 15 TA IP UCHI!</p>
+</header>
+
+<div class="game-meta">
+  <div class="score-box"><span class="score-label">BALL</span><br><span class="score-value" id="score">15</span></div>
+  <div class="score-box"><span class="score-label">JAMI</span><br><span class="score-value" id="totalScore">0</span></div>
+</div>
+
+<div class="drum-section">
+  <div class="drum" id="drum"></div>
+  <button class="spin-btn" id="spinBtn" onclick="spin()">🎰 AYLANTIR</button>
+</div>
+
+<div class="cards-grid" id="cardsGrid"></div>
+
+<div class="clue-box" id="clueBox">
+  <div class="clue-inner" id="clueText">Latatronni aylantiring!</div>
+</div>
+
+<div class="title-cells" id="titleCells"></div>
+
+<div class="guess-section">
+  <input type="text" id="guessInput" class="guess-input" placeholder="Film nomi..." autocomplete="off">
+  <button class="spin-btn" style="padding: 10px 20px; font-size: 1rem;" onclick="checkGuess()">OK</button>
+</div>
+
+<div class="overlay" id="resultOverlay">
+  <div class="modal">
+    <h2 id="rTitle" style="font-family: 'Bebas Neue'; font-size: 2.5rem;">TO'G'RI!</h2>
+    <p id="rFilm" style="color: var(--gold); margin: 10px 0;"></p>
+    <p id="rIntro" style="font-style: italic; font-size: 0.9rem; margin-bottom: 20px;"></p>
+    <button class="spin-btn" onclick="nextMovie()">KEYINGI →</button>
+  </div>
+</div>
+
+<script>
+let ALL_MOVIES = [];
+let movieOrder = [];
+let roundIndex = 0;
+let roundScore = 15;
+let totalScore = 0;
+let spunIndices = [];
+let revealedLetters = new Set();
+let isSpinning = false;
+
+// 1. JSON yuklash
+async function init() {
+    try {
+        const response = await fetch('films.json');
+        ALL_MOVIES = await response.json();
+        // Tasodifiy 10 ta turni tanlash
+        movieOrder = [...Array(ALL_MOVIES.length).keys()].sort(() => Math.random() - 0.5).slice(0, 10);
+        startRound();
+    } catch (e) {
+        document.getElementById('clueText').innerText = "Fayl topilmadi! films.json fayli mavjudligini tekshiring.";
+    }
+}
+
+function startRound() {
+    roundScore = 15;
+    spunIndices = [];
+    revealedLetters.clear();
+    document.getElementById('score').innerText = "15";
+    document.getElementById('guessInput').value = "";
+    renderCards();
+    renderTitle();
+    document.getElementById('clueText').innerText = "Latatronni aylantiring!";
+}
+
+function renderCards() {
+    const grid = document.getElementById('cardsGrid');
+    grid.innerHTML = "";
+    for (let i = 0; i < 15; i++) {
+        grid.innerHTML += `
+            <div class="card" id="card-${i}">
+                <div class="card-inner">
+                    <div class="card-back">${i + 1}</div>
+                    <div class="card-front" id="front-${i}"></div>
+                </div>
+            </div>`;
+    }
+}
+
+function renderTitle() {
+    const container = document.getElementById('titleCells');
+    const title = ALL_MOVIES[movieOrder[roundIndex]].title.toUpperCase();
+    container.innerHTML = "";
+    [...title].forEach((char, idx) => {
+        if (char === " ") {
+            container.innerHTML += `<div style="width: 15px;"></div>`;
+        } else {
+            const isShown = revealedLetters.has(idx) ? "shown" : "";
+            container.innerHTML += `<div class="tcell ${isShown}">${char}</div>`;
+        }
+    });
+}
+
+function spin() {
+    if (isSpinning || roundScore <= 0) return;
+    isSpinning = true;
+    const drum = document.getElementById('drum');
+    drum.classList.add('spinning');
+
+    setTimeout(() => {
+        drum.classList.remove('spinning');
+        let pick;
+        do { pick = Math.floor(Math.random() * 15); } while (spunIndices.includes(pick));
+        
+        spunIndices.push(pick);
+        const movie = ALL_MOVIES[movieOrder[roundIndex]];
+        const factText = movie.facts[pick];
+        
+        // Faktni tahlil qilish
+        const type = factText.match(/\[(.*?)\]/)?.[1] || "INFO";
+        const cleanText = factText.replace(/\[.*?\]/, "").trim();
+
+        // Kartani yangilash
+        document.getElementById(`front-${pick}`).innerHTML = `<div class="clue-type">${type}</div><div class="clue-text">${cleanText}</div>`;
+        document.getElementById(`card-${pick}`).classList.add('flipped');
+        document.getElementById('clueText').innerText = cleanText;
+
+        // Harf bo'lsa ochish
+        if (type === "HARF") {
+            const match = factText.match(/reveal:\s*(\d+)/);
+            if (match) revealedLetters.add(parseInt(match[1]));
+            renderTitle();
+        }
+
+        roundScore--;
+        document.getElementById('score').innerText = roundScore;
+        isSpinning = false;
+    }, 1200);
+}
+
+function checkGuess() {
+    const guess = document.getElementById('guessInput').value.trim().toUpperCase();
+    const original = ALL_MOVIES[movieOrder[roundIndex]].title.toUpperCase();
+    if (guess === original) {
+        totalScore += roundScore;
+        document.getElementById('totalScore').innerText = totalScore;
+        showModal(true);
+    } else {
+        alert("Noto'g'ri!");
+    }
+}
+
+function showModal(win) {
+    const movie = ALL_MOVIES[movieOrder[roundIndex]];
+    document.getElementById('rFilm').innerText = movie.title;
+    document.getElementById('rIntro').innerText = movie.intro;
+    document.getElementById('resultOverlay').classList.add('show');
+}
+
+function nextMovie() {
+    document.getElementById('resultOverlay').classList.remove('show');
+    roundIndex++;
+    if (roundIndex < 10) startRound(); else alert("O'yin tugadi! Jami ball: " + totalScore);
+}
+
+init();
+</script>
+</body>
+</html>
