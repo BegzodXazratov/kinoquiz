@@ -3,79 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🎬 CineQuiz Pro 300</title>
+<title>🎬 CineQuiz Pro 300 - Final</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #03040a; --panel: #0a0c1a; --card-bg: #101326; --card-face: #081226;
-  --gold: #ffcc00; --gold-glow: rgba(255, 204, 0, 0.4); --blue: #00a8ff;
-  --red: #ff4757; --green: #2ed573; --text: #f0f0f0; --dim: #57606f;
+  --bg: #03040a; --panel: #0a0c1a; --gold: #ffcc00; --gold-glow: rgba(255, 204, 0, 0.4);
+  --blue: #00a8ff; --red: #ff4757; --green: #2ed573; --text: #f0f0f0; --dim: #57606f;
 }
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
 body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
-header { text-align: center; padding: 20px; border-bottom: 2px solid var(--gold); box-shadow: 0 0 15px var(--gold-glow); }
-h1 { font-family: 'Bebas Neue'; font-size: clamp(2.5rem, 8vw, 3.5rem); letter-spacing: 4px; color: var(--gold); }
+header { text-align: center; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: #000; }
+h1 { font-family: 'Bebas Neue'; font-size: 2rem; color: var(--gold); }
+.round-counter { font-family: 'Space Mono'; color: var(--gold); font-size: 1.2rem; }
 
-.intro-box { background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; padding: 15px; position: relative; max-width: 800px; margin: 20px auto; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-.intro-box::before { content: "TA'RIF (SPOILER)"; position: absolute; top: -10px; left: 15px; background: var(--gold); color: #000; font-size: 0.65rem; padding: 2px 8px; font-weight: bold; border-radius: 4px; }
-.intro-text { font-size: 0.9rem; line-height: 1.4; font-style: italic; color: #ccc; text-align: center; }
+.intro-box { background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; padding: 15px; position: relative; max-width: 800px; margin: 15px auto; font-style: italic; font-size: 0.9rem; text-align: center; color: #ccc; min-height: 60px; display: flex; align-items: center; justify-content: center; }
 
 .game-stats { display: flex; justify-content: center; gap: 40px; margin: 10px 0; }
-.stat-value { font-family: 'Space Mono'; font-size: 2rem; color: var(--gold); font-weight: bold; }
+.stat-val { font-family: 'Space Mono'; font-size: 2.2rem; color: var(--gold); font-weight: bold; }
 
 .wheel-container { display: flex; justify-content: center; margin-bottom: 15px; position: relative; }
 .wheel-wrap { width: 220px; height: 220px; position: relative; border-radius: 50%; border: 6px solid var(--panel); box-shadow: 0 0 20px var(--gold-glow); cursor: grab; }
 #wheel { width: 100%; height: 100%; border-radius: 50%; }
 .wheel-marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 1.8rem; z-index: 10; }
 
-.fact-box { background: rgba(0, 168, 255, 0.1); border: 1px solid var(--blue); border-left: 5px solid var(--blue); padding: 12px; border-radius: 4px; display: none; max-width: 800px; margin: 15px auto; }
-.fact-box.show { display: block; animation: fadeIn 0.4s; }
+.title-cells { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 20px 0; padding: 0 10px; }
+.tcell-input { width: 34px; height: 42px; background: #111; border: 1px solid var(--dim); border-bottom: 3px solid var(--gold); text-align: center; font-family: 'Bebas Neue'; font-size: 1.8rem; color: var(--gold); border-radius: 4px; outline: none; transition: 0.2s; }
+.tcell-input.correct { border-color: var(--green) !important; background: rgba(46, 213, 115, 0.15); }
+.tcell-input.wrong { border-color: var(--red) !important; background: rgba(255, 71, 87, 0.15); }
 
-.title-cells { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 0 15px; margin-bottom: 25px; }
-.tcell-input {
-  width: 35px; height: 42px;
-  background: #111; border: 1px solid var(--dim); border-bottom: 3px solid var(--gold-glow);
-  text-align: center; font-family: 'Bebas Neue'; font-size: 1.8rem; color: var(--gold);
-  border-radius: 4px; outline: none; transition: 0.2s;
-}
-.tcell-input.correct { border-color: var(--green) !important; background: rgba(46, 213, 115, 0.15); text-shadow: 0 0 8px var(--green); }
-.tcell-input.wrong { border-color: var(--red) !important; background: rgba(255, 71, 87, 0.15); color: var(--red); }
-.tcell-input:disabled { opacity: 1; border-color: var(--gold); cursor: default; }
-
-.cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-width: 800px; margin: 15px auto; padding: 0 15px; }
+.cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 800px; margin: 15px auto; padding: 0 15px; }
 .card { aspect-ratio: 3/4; perspective: 1000px; }
 .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
 .card.flipped .card-inner { transform: rotateY(180deg); }
 .card-back, .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); }
-.card-back { background: var(--card-bg); color: var(--dim); font-family: 'Space Mono'; font-size: 1.2rem; }
-.card-front { background: var(--card-face); transform: rotateY(180deg); border-color: var(--gold); padding: 4px; text-align: center; }
+.card-back { background: #101326; color: var(--dim); font-size: 1.2rem; font-family: 'Space Mono'; }
+.card-front { background: #081226; transform: rotateY(180deg); border-color: var(--gold); padding: 5px; text-align: center; }
 
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.97); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
 .overlay.show { display: flex; }
-.modal { background: var(--panel); padding: 30px; border: 2px solid var(--gold); border-radius: 12px; text-align: center; width: 100%; max-width: 450px; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
-.modal-title { font-family: 'Bebas Neue'; font-size: 2.8rem; }
-.modal-title.red { color: var(--red); }
-.btn { font-family: 'Bebas Neue'; font-size: 1.2rem; padding: 10px 30px; border-radius: 5px; cursor: pointer; border: none; transition: 0.3s; margin-top: 10px; }
-.btn-skip { background: transparent; color: var(--red); border: 2px solid var(--red); display: block; margin: 20px auto; }
-.btn-skip:hover { background: rgba(255, 71, 87, 0.1); }
+.modal { background: var(--panel); padding: 30px; border: 2px solid var(--gold); border-radius: 15px; text-align: center; width: 100%; max-width: 550px; }
+
+.stats-table { width: 100%; margin: 20px 0; border-collapse: collapse; font-size: 0.85rem; }
+.stats-table th, .stats-table td { border: 1px solid var(--dim); padding: 10px; text-align: left; }
+.stats-table th { color: var(--gold); font-family: 'Bebas Neue'; }
 
 #yt-player { position: absolute; left: -9999px; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 600px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } .tcell-input { width: 30px; height: 38px; font-size: 1.5rem; } }
 </style>
 </head>
 <body>
 
 <div id="yt-player"></div>
-<header><h1>CINEQUIZ PRO</h1></header>
 
-<div class="intro-box"><p class="intro-text" id="introText">Yuklanmoqda...</p></div>
+<header>
+  <h1>CINEQUIZ PRO</h1>
+  <div class="round-counter"><span id="currRound">1</span> / 15</div>
+</header>
+
+<div class="intro-box" id="introText">Film ma'lumotlari yuklanmoqda...</div>
 
 <div class="game-stats">
-  <div class="stat"><span class="stat-value" id="roundScore">15</span></div>
-  <div class="stat"><span class="stat-value" id="totalScore">0</span></div>
+  <div class="stat"><span class="stat-val" id="roundScore">15</span></div>
+  <div class="stat" style="margin-left: 20px;"><span class="stat-val" id="totalScore">0</span></div>
 </div>
 
 <div class="wheel-container">
@@ -83,28 +72,34 @@ h1 { font-family: 'Bebas Neue'; font-size: clamp(2.5rem, 8vw, 3.5rem); letter-sp
   <div class="wheel-wrap" id="wheelWrap"><canvas id="wheel"></canvas></div>
 </div>
 
-<div class="fact-box" id="factBox"><p id="factText" style="font-weight: bold;"></p></div>
-
 <div class="title-cells" id="titleGrid"></div>
 <div class="cards-grid" id="cardsGrid"></div>
 
-<button class="btn btn-skip" onclick="skipRound()">BILMAYMAN / KEYINGISI</button>
+<div style="text-align:center; margin-bottom:50px;">
+  <button onclick="skipRound()" style="background:transparent; border:2px solid var(--red); color:var(--red); padding:10px 20px; font-family:'Bebas Neue'; font-size:1.2rem; cursor:pointer; border-radius:5px;">BILMAYMAN / SKIP</button>
+</div>
 
 <div class="overlay" id="resultModal">
   <div class="modal">
-    <h2 class="modal-title" id="rTitle"></h2>
-    <p style="color: var(--gold); font-size: 1.4rem; margin: 15px 0; font-weight: bold;" id="rFilm"></p>
-    <p id="rIntro" style="font-style: italic; margin-bottom: 25px; color: #ccc; font-size: 0.85rem;"></p>
-    <button class="btn" style="background: var(--gold); color: #000;" onclick="nextRound()" id="rBtnText">KEYINGI FILM →</button>
+    <h2 id="rTitle" style="font-family:'Bebas Neue'; font-size:3rem;"></h2>
+    <p id="rFilm" style="color:var(--gold); font-size:1.6rem; font-weight:bold; margin:15px 0;"></p>
+    <p id="rIntro" style="font-style:italic; color:#ccc; margin-bottom:20px; font-size:0.9rem;"></p>
+    <button onclick="nextRound()" style="background:var(--gold); padding:12px 30px; border:none; font-family:'Bebas Neue'; font-size:1.4rem; cursor:pointer; border-radius:5px;">KEYINGI FILM →</button>
   </div>
 </div>
 
 <div class="overlay" id="finalModal">
   <div class="modal">
-    <h2 class="modal-title">O'YIN TUGADI!</h2>
-    <p style="font-size: 4rem; color: var(--gold); font-weight: bold; margin: 10px 0;" id="fTotal">0</p>
-    <p id="fRating" style="font-style: italic; margin-bottom: 30px; line-height: 1.5;"></p>
-    <button class="btn" style="background: var(--gold); color: #000;" onclick="location.reload()">BOSHDAN BOSHLASH</button>
+    <h2 style="font-family:'Bebas Neue'; font-size:2.5rem; color:var(--gold);">O'YIN YAKUNLANDI!</h2>
+    <div style="font-size:4.5rem; font-weight:bold; margin:10px 0;" id="fTotal">0</div>
+    <p id="fRating" style="font-style:italic; margin-bottom:20px;"></p>
+    <div style="max-height: 250px; overflow-y: auto;">
+        <table class="stats-table" id="statsTable">
+          <thead><tr><th>#</th><th>Film</th><th>Ball</th></tr></thead>
+          <tbody></tbody>
+        </table>
+    </div>
+    <button onclick="location.reload()" style="background:var(--gold); padding:12px 30px; border:none; font-family:'Bebas Neue'; font-size:1.4rem; cursor:pointer; border-radius:5px; margin-top:20px;">QAYTADAN BOSHLASH</button>
   </div>
 </div>
 
@@ -113,17 +108,15 @@ const TRACKS = ["I0cZukTFXNw", "nj4mXWKgKXc", "8kooIgKESYE", "X-jdl9hcCeg"];
 const ICONS = {"YIL":"📅","REJISSYOR":"🎬","AKTYOR":"🎭","JANR":"🌀","SAHNA":"🎞️","IQTIBOS":"💬","MUSIQA":"🎵","MUKOFOT":"🏆","DETAL":"🧩","HARF":"🔤"};
 const RATINGS = [
   { min: 140, msg: "Siz Holywoodda Tarantino kutayapti sizi!))" },
-  { min: 110, msg: "Daxshat! Kino olami ensiklopediyasi ekansiz-ku!" },
-  { min: 85, msg: "Juda yaxshi natija. Haqiqiy kinoman!" },
-  { min: 45, msg: "O'rtacha. Ba'zi klassikalarni ko'rish kerak." },
-  { min: 10, msg: "Novella ko'rganingiz yaxshi shekilli? 😅" },
-  { min: 0, msg: "Saytni adashib ochib qoldingizmi? 😅" }
+  { min: 100, msg: "Daxshat! Haqiqiy kinoman ekansiz!" },
+  { min: 60, msg: "Yaxshi natija!" },
+  { min: 0, msg: "Novella ko'rganingiz ma'qulroq shekilli? 😅" }
 ];
 
 let allMovies = [], currentIndex = 0, roundScore = 15, totalScore = 0;
-let spunIndices = [], revealedLetters = new Set(), currentMovie = null;
+let spunIndices = [], revealedLetters = new Set(), currentMovie = null, gameLog = [];
 
-// Wheel Logic
+// Wheel Physics
 const canvas = document.getElementById('wheel'), ctx = canvas.getContext('2d'), wrap = document.getElementById('wheelWrap');
 let size = 220, center = 110, angle = 0, speed = 0, isDragging = false, startX, startY, lastT;
 canvas.width = size; canvas.height = size;
@@ -133,19 +126,18 @@ function drawWheel() {
   let sector = (Math.PI*2)/15;
   for(let i=0; i<15; i++) {
     let a = angle + i*sector;
-    ctx.beginPath(); ctx.moveTo(center,center);
-    ctx.arc(center,center,center-5,a,a+sector);
+    ctx.beginPath(); ctx.moveTo(center,center); ctx.arc(center,center,center-5,a,a+sector);
     ctx.fillStyle = i%2===0 ? "#0d0f1d" : "#ffcc00"; ctx.fill();
     ctx.save(); ctx.translate(center,center); ctx.rotate(a+sector/2);
-    ctx.fillStyle = i%2===0 ? "#ffcc00" : "#0d0f1d"; ctx.font = "bold 12px Space Mono";
-    ctx.fillText(i+1, center-20, 5); ctx.restore();
+    ctx.fillStyle = i%2===0 ? "#ffcc00" : "#0d0f1d"; ctx.font = "bold 12px Montserrat";
+    ctx.fillText(i+1, center-25, 5); ctx.restore();
   }
 }
 
 function physics(t) {
   let dt = (t-(lastT||t))/1000; lastT = t;
   if(!isDragging && speed!==0) {
-    angle += speed*dt; speed *= Math.pow(0.98, dt*60);
+    angle += speed*dt; speed *= 0.985;
     if(Math.abs(speed)<0.1) { speed=0; resolveSpin(); }
     drawWheel();
   }
@@ -155,50 +147,25 @@ function physics(t) {
 // YT API
 let tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api";
 document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, null);
-let player;
 function onYouTubeIframeAPIReady() {
-  const track = TRACKS[Math.floor(Math.random() * TRACKS.length)];
-  player = new YT.Player('yt-player', { height: '0', width: '0', videoId: track, playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': track }, events: { 'onReady': (e) => e.target.setVolume(20) } });
+  const track = TRACKS[Math.floor(Math.random()*TRACKS.length)];
+  new YT.Player('yt-player', { height:'0', width:'0', videoId:track, playerVars:{'autoplay':1,'loop':1,'playlist':track}, events:{'onReady':(e)=>e.target.setVolume(15)}});
 }
 
-// Input Handlers
-function startDrag(e) { if(roundScore>1 && !isDragging) { isDragging=true; speed=0; startX=e.clientX || e.touches[0].clientX; startY=e.clientY || e.touches[0].clientY; } }
-function drag(e) {
-  if(!isDragging) return;
-  const x = e.clientX || e.touches[0].clientX, y = e.clientY || e.touches[0].clientY;
-  const rect = wrap.getBoundingClientRect(), cx = rect.left+110, cy = rect.top+110;
-  angle += (Math.atan2(y-cy, x-cx) - Math.atan2(startY-cy, startX-cx));
-  startX=x; startY=y; drawWheel();
-}
-wrap.addEventListener('mousedown', startDrag); wrap.addEventListener('touchstart', startDrag);
-window.addEventListener('mousemove', drag); window.addEventListener('touchmove', drag);
-window.addEventListener('mouseup', () => { if(isDragging) { isDragging=false; speed=25; }});
-window.addEventListener('touchend', () => { if(isDragging) { isDragging=false; speed=25; }});
-
-function resolveSpin() {
-  let sector = (Math.PI*2)/15;
-  let norm = (Math.PI*1.5 - angle) % (Math.PI*2); if(norm<0) norm += Math.PI*2;
-  let pick = Math.floor(norm/sector); if(pick>=15) pick=0;
-  if(spunIndices.includes(pick)) { angle += 0.1; resolveSpin(); return; }
-  showClue(pick);
-}
-
-// Universal Game Engine
 async function init() {
   try {
     const res = await fetch('films.json');
     const data = await res.json();
-    allMovies = data.sort(() => Math.random()-0.5).slice(0,10);
+    allMovies = data.sort(()=>Math.random()-0.5).slice(0, 15);
     startRound(); requestAnimationFrame(physics);
-  } catch(e) { document.getElementById('introText').innerText = "films.json yuklashda xatolik!"; }
+  } catch(e) { console.log("JSON yuklanishda xato"); }
 }
 
 function startRound() {
   currentMovie = allMovies[currentIndex]; roundScore = 15; spunIndices = []; revealedLetters.clear();
+  document.getElementById('currRound').innerText = currentIndex + 1;
   document.getElementById('roundScore').innerText = "15";
-  document.getElementById('totalScore').innerText = totalScore;
   document.getElementById('introText').innerText = currentMovie.intro;
-  document.getElementById('factBox').classList.remove('show');
   renderCards(); renderTitle(); drawWheel();
 }
 
@@ -209,141 +176,87 @@ function renderCards() {
 
 function renderTitle() {
   const g = document.getElementById('titleGrid'); g.innerHTML = "";
-  const titleStr = currentMovie.title.split(' (')[0].toUpperCase();
-  
-  [...titleStr].forEach((char, i) => {
-    if(!/[A-Z0-9]/.test(char)) {
-      const spacer = document.createElement('div');
-      spacer.style.width = char === " " ? "15px" : "10px";
-      spacer.style.display = "flex"; spacer.style.alignItems = "center";
-      spacer.style.justifyContent = "center"; spacer.style.color = "var(--dim)";
-      spacer.innerText = char === " " ? "" : char;
-      g.appendChild(spacer);
+  const t = currentMovie.title.split(' (')[0].toUpperCase();
+  [...t].forEach((c, i) => {
+    if(!/[A-Z0-9]/.test(c)) {
+      g.innerHTML += `<div style="width:12px; color:var(--dim); font-size:1.8rem; display:flex; align-items:center;">${c===" "?"":c}</div>`;
     } else {
       const input = document.createElement('input');
       input.className = 'tcell-input'; input.maxLength = 1; input.id = `input-${i}`;
-      
-      if(revealedLetters.has(i)) {
-        input.value = char; input.disabled = true; input.classList.add('correct');
-      }
-      
+      if(revealedLetters.has(i)) { input.value = c; input.disabled = true; input.classList.add('correct'); }
       input.addEventListener('input', (e) => {
         const val = e.target.value.toUpperCase();
-        e.target.classList.remove('wrong', 'correct'); // Oldingi statusni tozalash
-        
-        if(val === char) {
-          e.target.classList.add('correct');
-          focusNext(i);
-        } else if(val !== "") {
-          e.target.classList.add('wrong');
-        }
-        checkWin();
+        if(val === c) { e.target.classList.add('correct'); checkWin(); focusNext(i); }
+        else if(val !== "") { e.target.classList.add('wrong'); setTimeout(()=>e.target.classList.remove('wrong'), 500); }
       });
-      
-      input.addEventListener('keydown', (e) => {
-        if(e.key === 'Backspace') {
-          if(!e.target.value) focusPrev(i);
-          else e.target.classList.remove('wrong', 'correct');
-        }
-      });
+      input.addEventListener('keydown', (e) => { if(e.key==='Backspace' && !e.target.value) focusPrev(i); });
       g.appendChild(input);
     }
   });
 }
 
-function focusNext(idx) {
-  for(let i = idx + 1; i < 100; i++) {
-    const el = document.getElementById(`input-${i}`);
-    if(el && !el.disabled) { el.focus(); break; }
-  }
-}
-function focusPrev(idx) {
-  for(let i = idx - 1; i >= 0; i--) {
-    const el = document.getElementById(`input-${i}`);
-    if(el && !el.disabled) { el.focus(); break; }
-  }
-}
+function focusNext(idx) { for(let i=idx+1; i<100; i++) { const el=document.getElementById(`input-${i}`); if(el&&!el.disabled){el.focus(); break;} } }
+function focusPrev(idx) { for(let i=idx-1; i>=0; i--) { const el=document.getElementById(`input-${i}`); if(el&&!el.disabled){el.focus(); break;} } }
 
-function checkWin() {
-  const titleStr = currentMovie.title.split(' (')[0].toUpperCase();
-  const isComplete = [...titleStr].every((char, i) => {
-    if(!/[A-Z0-9]/.test(char)) return true;
-    const input = document.getElementById(`input-${i}`);
-    return input && input.value.toUpperCase() === char;
-  });
-  if(isComplete) setTimeout(() => endRound(true), 300);
+function resolveSpin() {
+  let pick = Math.floor(Math.random()*15);
+  while(spunIndices.includes(pick)) pick = Math.floor(Math.random()*15);
+  showClue(pick);
 }
 
 function showClue(idx) {
   if(roundScore <= 1) return;
   spunIndices.push(idx);
-  const f = currentMovie.facts[idx];
-  const type = (f.match(/\[(.*?)\]/)?.[1]||"INFO").toUpperCase();
-  const text = f.replace(/\[.*?\]/,"").trim();
-  const cleanDisplay = type === "HARF" ? text.split(' (')[0] : text;
-  const icon = ICONS[type] || "ℹ️";
-  
-  document.getElementById(`f-${idx}`).innerHTML = `<div style="font-size:0.45rem; color:var(--gold); font-weight:bold">${type}</div><div style="font-size:0.55rem; line-height:1.1">${cleanDisplay}</div>`;
+  const f = currentMovie.facts[idx], type = (f.match(/\[(.*?)\]/)?.[1]||"INFO").toUpperCase(), txt = f.replace(/\[.*?\]/,"").trim();
+  document.getElementById(`f-${idx}`).innerHTML = `<div style="color:var(--gold); font-size:0.5rem; font-weight:bold;">${type}</div><div style="font-size:0.55rem;">${txt.split(' (')[0]}</div>`;
   document.getElementById(`card-${idx}`).classList.add('flipped');
-  document.getElementById('factText').innerHTML = `${icon} <b>${type}:</b> ${cleanText(text)}`;
-  document.getElementById('factBox').classList.add('show');
 
   if(type === "HARF") {
-    const m = f.match(/reveal:\s*(\d+)/);
-    if(m) {
-      const pos = parseInt(m[1]);
-      revealedLetters.add(pos);
-      const input = document.getElementById(`input-${pos}`);
-      if(input) {
-        input.value = currentMovie.title.split(' (')[0][pos].toUpperCase();
-        input.classList.add('correct'); input.disabled = true;
-      }
-    }
-    checkWin();
+    const m = f.match(/reveal:\s*(\d+)/); 
+    if(m) { revealedLetters.add(parseInt(m[1])); renderTitle(); }
   }
   roundScore--; document.getElementById('roundScore').innerText = roundScore;
 }
 
-function cleanText(t) { return t.split(' (reveal:')[0]; }
+function checkWin() {
+  const t = currentMovie.title.split(' (')[0].toUpperCase();
+  const win = [...t].every((c, i) => !/[A-Z0-9]/.test(c) || (document.getElementById(`input-${i}`) && document.getElementById(`input-${i}`).value.toUpperCase() === c));
+  if(win) setTimeout(() => endRound(true), 300);
+}
 
 function skipRound() { endRound(false); }
 
 function endRound(win) {
-  const rTitle = document.getElementById('rTitle');
-  if(win) {
-    totalScore += roundScore;
-    rTitle.innerText = "TO'G'RI!"; rTitle.style.color = "var(--gold)";
-  } else {
-    rTitle.innerText = "AFSUS!"; rTitle.className = "modal-title red";
-    for(let i=0; i<15; i++) {
-        if(!spunIndices.includes(i)) {
-            const f = currentMovie.facts[i], type = (f.match(/\[(.*?)\]/)?.[1]||"INFO").toUpperCase(), txt = f.replace(/\[.*?\]/,"").trim();
-            document.getElementById(`f-${i}`).innerHTML = `<div style="font-size:0.4rem; color:#888">${type}</div><div style="font-size:0.5rem">${cleanText(txt)}</div>`;
-            document.getElementById(`card-${i}`).classList.add('flipped');
-        }
-    }
-    const full = currentMovie.title.split(' (')[0].toUpperCase();
-    [...full].forEach((_, i) => revealedLetters.add(i));
-    renderTitle();
-  }
+  const score = win ? roundScore : 0;
+  totalScore += score;
+  gameLog.push({ title: currentMovie.title, score });
+  document.getElementById('rTitle').innerText = win ? "TO'G'RI!" : "AFSUS!";
+  document.getElementById('rTitle').style.color = win ? "var(--green)" : "var(--red)";
   document.getElementById('rFilm').innerText = currentMovie.title;
   document.getElementById('rIntro').innerText = currentMovie.intro;
-  document.getElementById('rBtnText').innerText = win ? "KEYINGI FILM →" : "ORTGA / DAVOM ETISH →";
   document.getElementById('resultModal').classList.add('show');
 }
 
 function nextRound() {
   document.getElementById('resultModal').classList.remove('show');
   currentIndex++;
-  if(currentIndex < 10) startRound(); else showFinal();
+  if(currentIndex < 15) startRound(); else showFinal();
 }
 
 function showFinal() {
-  let r = RATINGS.find(x => totalScore >= x.min) || RATINGS[RATINGS.length-1];
   document.getElementById('fTotal').innerText = totalScore;
+  let r = RATINGS.find(x => totalScore >= x.min);
   document.getElementById('fRating').innerText = r.msg;
+  const tbody = document.querySelector('#statsTable tbody');
+  gameLog.forEach((item, idx) => { tbody.innerHTML += `<tr><td>${idx+1}</td><td>${item.title}</td><td>${item.score}</td></tr>`; });
   document.getElementById('finalModal').classList.add('show');
 }
+
+wrap.addEventListener('mousedown', (e) => { isDragging=true; speed=0; startX=e.clientX; });
+wrap.addEventListener('touchstart', (e) => { isDragging=true; speed=0; startX=e.touches[0].clientX; });
+window.addEventListener('mousemove', (e) => { if(!isDragging) return; speed=25; angle+=(e.clientX-startX)*0.01; startX=e.clientX; drawWheel(); });
+window.addEventListener('mouseup', () => { if(isDragging){isDragging=false; speed=25;} });
+window.addEventListener('touchend', () => { if(isDragging){isDragging=false; speed=25;} });
 
 init();
 </script>
