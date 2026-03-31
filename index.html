@@ -3,86 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🎬 CineQuiz Pro 300</title>
+<title>🎬 CineQuiz Crossword Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #03040a; --panel: #0a0c1a; --card-bg: #101326; --card-face: #081226;
   --gold: #ffcc00; --gold-glow: rgba(255, 204, 0, 0.4); --blue: #00a8ff;
-  --red: #e74c3c; --text: #f0f0f0; --dim: #57606f;
+  --red: #ff4757; --green: #2ed573; --text: #f0f0f0; --dim: #57606f;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif;
   min-height: 100vh; overflow-x: hidden;
-  background-image: radial-gradient(white, rgba(255,255,255,.1) 1px, transparent 2px);
-  background-size: 50px 50px; animation: stars 10s linear infinite;
+  background-image: radial-gradient(white, rgba(255,255,255,.05) 1px, transparent 2px);
+  background-size: 50px 50px;
 }
 
-@keyframes stars { from { background-position: 0 0; } to { background-position: 0 -50px; } }
+header { text-align: center; padding: 20px; border-bottom: 2px solid var(--gold); box-shadow: 0 0 15px var(--gold-glow); }
+h1 { font-family: 'Bebas Neue'; font-size: 3rem; letter-spacing: 4px; color: var(--gold); }
 
-header { text-align: center; padding: 25px 10px; border-bottom: 2px solid var(--gold); box-shadow: 0 0 20px var(--gold-glow); }
-h1 { font-family: 'Bebas Neue'; font-size: 3.5rem; letter-spacing: 4px; color: var(--gold); }
+.intro-container { max-width: 800px; margin: 15px auto; padding: 0 15px; }
+.intro-box { background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; padding: 15px; position: relative; }
+.intro-box::before { content: "TA'RIF (SPOILER)"; position: absolute; top: -10px; left: 15px; background: var(--gold); color: #000; font-size: 0.65rem; padding: 2px 8px; font-weight: bold; border-radius: 4px; }
+.intro-text { font-size: 0.85rem; line-height: 1.4; font-style: italic; color: #ccc; }
 
-.intro-container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
-.intro-box { background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; padding: 20px; position: relative; }
-.intro-box::before { content: "SPOILER / TA'RIF"; position: absolute; top: -10px; left: 20px; background: var(--gold); color: #000; font-size: 0.7rem; padding: 2px 8px; font-weight: bold; border-radius: 4px; }
-.intro-text { font-size: 0.95rem; line-height: 1.5; font-style: italic; color: #d1ccc0; }
+.game-stats { display: flex; justify-content: center; gap: 40px; margin: 10px 0; }
+.stat-value { font-family: 'Space Mono'; font-size: 2rem; color: var(--gold); font-weight: bold; }
 
-.game-stats { display: flex; justify-content: center; gap: 40px; margin: 15px 0; }
-.stat-label { font-size: 0.7rem; color: var(--dim); text-transform: uppercase; display: block; }
-.stat-value { font-family: 'Space Mono'; font-size: 2.2rem; color: var(--gold); font-weight: bold; }
-
-.wheel-container { display: flex; justify-content: center; margin-bottom: 25px; position: relative; }
-.wheel-wrap { width: 260px; height: 260px; position: relative; border-radius: 50%; border: 8px solid var(--panel); box-shadow: 0 0 25px var(--gold-glow); cursor: grab; }
+.wheel-container { display: flex; justify-content: center; margin-bottom: 15px; position: relative; }
+.wheel-wrap { width: 220px; height: 220px; position: relative; border-radius: 50%; border: 6px solid var(--panel); box-shadow: 0 0 20px var(--gold-glow); cursor: grab; }
 #wheel { width: 100%; height: 100%; border-radius: 50%; }
-.wheel-marker { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 2rem; z-index: 10; }
+.wheel-marker { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 1.8rem; z-index: 10; }
 
-.fact-display { max-width: 800px; margin: 0 auto 20px; padding: 0 15px; }
-.fact-box { background: rgba(0, 168, 255, 0.1); border: 1px solid var(--blue); border-left: 5px solid var(--blue); padding: 15px; opacity: 0; transition: 0.4s; border-radius: 4px; }
-.fact-box.show { opacity: 1; }
+.fact-display { max-width: 800px; margin: 0 auto 15px; padding: 0 15px; }
+.fact-box { background: rgba(0, 168, 255, 0.1); border: 1px solid var(--blue); border-left: 5px solid var(--blue); padding: 12px; border-radius: 4px; display: none; }
+.fact-box.show { display: block; }
 
-.title-cells { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin: 20px 0; }
-.tcell { width: 30px; height: 40px; border-bottom: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue'; font-size: 1.8rem; color: transparent; transition: 0.4s; }
-.tcell.visible { color: var(--gold); text-shadow: 0 0 8px var(--gold); }
+/* Krosvord Katakchalari */
+.title-container { text-align: center; margin-bottom: 25px; }
+.title-cells { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding: 0 15px; }
+.tcell-input {
+  width: 35px; height: 42px;
+  background: #111;
+  border: 1px solid var(--dim);
+  border-bottom: 3px solid var(--gold-glow);
+  text-align: center;
+  font-family: 'Bebas Neue';
+  font-size: 1.8rem;
+  color: var(--gold);
+  border-radius: 4px;
+  outline: none;
+  transition: 0.3s;
+}
+.tcell-input:focus { border-color: var(--gold); box-shadow: 0 0 10px var(--gold-glow); }
+.tcell-input.correct { border-color: var(--green); background: rgba(46, 213, 115, 0.1); }
+.tcell-input.wrong { border-color: var(--red); background: rgba(255, 71, 87, 0.1); }
+.tcell-input:disabled { color: var(--gold); border-color: var(--gold); opacity: 1; }
 
-.cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; max-width: 800px; margin: 20px auto; padding: 0 15px; }
+.cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-width: 800px; margin: 15px auto; padding: 0 15px; }
 .card { aspect-ratio: 3/4; perspective: 1000px; }
 .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
 .card.flipped .card-inner { transform: rotateY(180deg); }
-.card-back, .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); }
+.card-back, .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.05); }
 .card-back { background: var(--card-bg); color: var(--dim); font-family: 'Space Mono'; font-size: 1.2rem; }
-.card-front { background: var(--card-face); transform: rotateY(180deg); border-color: var(--gold); padding: 5px; text-align: center; }
+.card-front { background: var(--card-face); transform: rotateY(180deg); border-color: var(--gold); padding: 4px; text-align: center; }
 
-.action-area { max-width: 800px; margin: 30px auto 60px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-.guess-input { background: var(--panel); border: 1px solid var(--dim); color: #fff; padding: 15px; width: 320px; border-radius: 6px; text-align: center; font-size: 1rem; }
-.btn-group { display: flex; gap: 15px; }
-.btn { font-family: 'Bebas Neue'; font-size: 1.4rem; padding: 12px 35px; border-radius: 5px; cursor: pointer; border: none; transition: 0.3s; }
-.btn-gold { background: var(--gold); color: #000; }
+.action-area { max-width: 800px; margin: 20px auto 40px; display: flex; justify-content: center; }
+.btn { font-family: 'Bebas Neue'; font-size: 1.2rem; padding: 10px 30px; border-radius: 5px; cursor: pointer; border: none; transition: 0.3s; }
 .btn-skip { background: transparent; color: var(--red); border: 2px solid var(--red); }
+.btn-skip:hover { background: rgba(255, 71, 87, 0.1); }
 
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.97); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; }
 .overlay.show { display: flex; }
-.modal { background: var(--panel); padding: 40px; border: 2px solid var(--gold); border-radius: 15px; text-align: center; width: 100%; max-width: 500px; }
-.modal-title { font-family: 'Bebas Neue'; font-size: 3rem; }
-.modal-film { color: var(--gold); font-size: 1.6rem; margin: 15px 0; font-weight: bold; }
+.modal { background: var(--panel); padding: 30px; border: 2px solid var(--gold); border-radius: 12px; text-align: center; width: 100%; max-width: 450px; }
+.modal-title { font-family: 'Bebas Neue'; font-size: 2.8rem; }
+.modal-title.red { color: var(--red); border-color: var(--red); }
 
-@media (max-width: 600px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } h1 { font-size: 2.5rem; } }
+/* YouTube Player (Yashirin) */
+#yt-player { position: absolute; left: -9999px; }
+
+@media (max-width: 600px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } .tcell-input { width: 30px; height: 38px; font-size: 1.5rem; } }
 </style>
 </head>
 <body>
 
-<header><h1>CINEQUIZ PRO 300</h1></header>
+<div id="yt-player"></div>
+<header><h1>CINEQUIZ PRO</h1></header>
 
 <div class="intro-container">
   <div class="intro-box"><p class="intro-text" id="introText">Yuklanmoqda...</p></div>
 </div>
 
 <div class="game-stats">
-  <div class="stat"><span class="stat-label">ROUND SCORE</span><span class="stat-value" id="roundScore">15</span></div>
-  <div class="stat"><span class="stat-label">TOTAL SCORE</span><span class="stat-value" id="totalScore">0</span></div>
+  <div class="stat"><span class="stat-value" id="roundScore">15</span></div>
+  <div class="stat"><span class="stat-value" id="totalScore">0</span></div>
 </div>
 
 <div class="wheel-container">
@@ -101,32 +117,30 @@ h1 { font-family: 'Bebas Neue'; font-size: 3.5rem; letter-spacing: 4px; color: v
 <div class="cards-grid" id="cardsGrid"></div>
 
 <div class="action-area">
-  <input type="text" id="guessInput" class="guess-input" placeholder="Film nomi..." autocomplete="off">
-  <div class="btn-group">
-    <button class="btn btn-gold" onclick="checkGuess()">TEKSHIRISH</button>
-    <button class="btn btn-skip" onclick="skipRound()">BILMAYMAN</button>
-  </div>
+  <button class="btn btn-skip" onclick="skipRound()">BILMAYMAN / KEYINGISI</button>
 </div>
 
 <div class="overlay" id="resultModal">
   <div class="modal">
     <h2 class="modal-title" id="rTitle"></h2>
-    <p class="modal-film" id="rFilm"></p>
-    <p id="rIntro" style="font-style: italic; margin-bottom: 25px; color: #ccc;"></p>
-    <button class="btn btn-gold" onclick="nextRound()">KEYINGI FILM →</button>
+    <p style="color: var(--gold); font-size: 1.4rem; margin: 15px 0; font-weight: bold;" id="rFilm"></p>
+    <p id="rIntro" style="font-style: italic; margin-bottom: 25px; color: #ccc; font-size: 0.85rem;"></p>
+    <button class="btn" style="background: var(--gold); color: #000;" onclick="nextRound()" id="rBtnText">KEYINGI FILM →</button>
   </div>
 </div>
 
 <div class="overlay" id="finalModal">
   <div class="modal">
-    <h2 class="modal-title">O'YIN TUGADI!</h2>
+    <h2 class="modal-title">NATIJA</h2>
     <p style="font-size: 4rem; color: var(--gold); font-weight: bold; margin: 10px 0;" id="fTotal">0</p>
     <p id="fRating" style="font-style: italic; margin-bottom: 30px; line-height: 1.5;"></p>
-    <button class="btn btn-gold" onclick="location.reload()">QAYTADAN BOSHLASH</button>
+    <button class="btn" style="background: var(--gold); color: #000;" onclick="location.reload()">BOSHDAN BOSHLASH</button>
   </div>
 </div>
 
 <script>
+// Musiqalar
+const TRACKS = ["I0cZukTFXNw", "nj4mXWKgKXc", "8kooIgKESYE", "X-jdl9hcCeg"];
 const ICONS = {"YIL":"📅","REJISSYOR":"🎬","AKTYOR":"🎭","JANR":"🌀","SAHNA":"🎞️","IQTIBOS":"💬","MUSIQA":"🎵","MUKOFOT":"🏆","DETAL":"🧩","HARF":"🔤"};
 const RATINGS = [
   { min: 140, msg: "Siz O'zbekistonda nima qilayapsiz, Holywoodda Tarantino kutayapti sizi!))" },
@@ -134,10 +148,8 @@ const RATINGS = [
   { min: 85, msg: "Juda yaxshi natija. Haqiqiy kinoman!" },
   { min: 65, msg: "Yomon emas. Ko'p filmlarni tanir ekansiz." },
   { min: 45, msg: "O'rtacha. Ba'zi klassikalarni ko'rish kerak." },
-  { min: 30, msg: "Kino ko'rishni boshlash kerak, do'stim." },
-  { min: 20, msg: "Televizorda faqat xabarlarni ko'rasizmi?" },
+  { min: 25, msg: "Kino ko'rishni boshlash kerak, do'stim." },
   { min: 10, msg: "Siz faqat televizorda novella ko'rsayiz kerak-a?" },
-  { min: 1, msg: "Umuman qiziqmas ekansiz-a kinoga?" },
   { min: 0, msg: "Saytni adashib ochib qoldingizmi? 😅" }
 ];
 
@@ -146,7 +158,7 @@ let spunIndices = [], revealedLetters = new Set(), currentMovie = null;
 
 // G'ildirak fizikasi
 const canvas = document.getElementById('wheel'), ctx = canvas.getContext('2d'), wrap = document.getElementById('wheelWrap');
-let size = 260, center = 130, angle = 0, speed = 0, isDragging = false, startX, startY, lastT;
+let size = 220, center = 110, angle = 0, speed = 0, isDragging = false, startX, startY, lastT;
 canvas.width = size; canvas.height = size;
 
 function drawWheel() {
@@ -158,8 +170,8 @@ function drawWheel() {
     ctx.arc(center,center,center-5,a,a+sector);
     ctx.fillStyle = i%2===0 ? "#0d0f1d" : "#ffcc00"; ctx.fill();
     ctx.save(); ctx.translate(center,center); ctx.rotate(a+sector/2);
-    ctx.fillStyle = i%2===0 ? "#ffcc00" : "#0d0f1d"; ctx.font = "bold 14px Space Mono";
-    ctx.fillText(i+1, center-25, 5); ctx.restore();
+    ctx.fillStyle = i%2===0 ? "#ffcc00" : "#0d0f1d"; ctx.font = "bold 12px Space Mono";
+    ctx.fillText(i+1, center-20, 5); ctx.restore();
   }
 }
 
@@ -173,14 +185,41 @@ function physics(t) {
   requestAnimationFrame(physics);
 }
 
+// Musiqa Playeri (YouTube API)
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+let firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+let player;
+function onYouTubeIframeAPIReady() {
+  const randomTrack = TRACKS[Math.floor(Math.random() * TRACKS.length)];
+  player = new YT.Player('yt-player', {
+    height: '0', width: '0',
+    videoId: randomTrack,
+    playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': randomTrack },
+    events: { 'onReady': (e) => e.target.setVolume(20) }
+  });
+}
+
+// Drag logic
 wrap.addEventListener('mousedown', e => { if(roundScore>1 && !isDragging) { isDragging=true; speed=0; startX=e.clientX; startY=e.clientY; }});
 window.addEventListener('mousemove', e => {
   if(!isDragging) return;
-  let rect = wrap.getBoundingClientRect(), cx = rect.left+130, cy = rect.top+130;
+  let rect = wrap.getBoundingClientRect(), cx = rect.left+110, cy = rect.top+110;
   let a1 = Math.atan2(startY-cy, startX-cx), a2 = Math.atan2(e.clientY-cy, e.clientX-cx);
   angle += (a2-a1); startX=e.clientX; startY=e.clientY; drawWheel();
 });
 window.addEventListener('mouseup', () => { if(isDragging) { isDragging=false; speed=25; }});
+
+wrap.addEventListener('touchstart', e => { if(roundScore>1 && !isDragging) { isDragging=true; speed=0; startX=e.touches[0].clientX; startY=e.touches[0].clientY; }});
+window.addEventListener('touchmove', e => {
+  if(!isDragging) return;
+  let rect = wrap.getBoundingClientRect(), cx = rect.left+110, cy = rect.top+110;
+  let a1 = Math.atan2(startY-cy, startX-cx), a2 = Math.atan2(e.touches[0].clientY-cy, e.touches[0].clientX-cx);
+  angle += (a2-a1); startX=e.touches[0].clientX; startY=e.touches[0].clientY; drawWheel();
+});
+window.addEventListener('touchend', () => { if(isDragging) { isDragging=false; speed=25; }});
 
 function resolveSpin() {
   let sector = (Math.PI*2)/15;
@@ -202,8 +241,8 @@ async function init() {
 function startRound() {
   currentMovie = allMovies[currentIndex]; roundScore = 15; spunIndices = []; revealedLetters.clear();
   document.getElementById('roundScore').innerText = "15";
+  document.getElementById('totalScore').innerText = totalScore;
   document.getElementById('introText').innerText = currentMovie.intro;
-  document.getElementById('guessInput').value = "";
   document.getElementById('factBox').classList.remove('show');
   renderCards(); renderTitle(); drawWheel();
 }
@@ -217,46 +256,100 @@ function renderTitle() {
   const g = document.getElementById('titleGrid'); g.innerHTML = "";
   const t = currentMovie.title.split(' (')[0].toUpperCase();
   [...t].forEach((c, i) => {
-    if(c===" ") g.innerHTML += `<div style="width:15px"></div>`;
-    else g.innerHTML += `<div class="tcell ${revealedLetters.has(i)?'visible':''}">${c}</div>`;
+    if(!/[A-Z0-9]/.test(c)) {
+      g.innerHTML += `<div style="width:15px; font-size:1.5rem; display:flex; align-items:center; justify-content:center; color:var(--dim)">${c}</div>`;
+    } else {
+      const input = document.createElement('input');
+      input.className = 'tcell-input';
+      input.maxLength = 1;
+      input.id = `input-${i}`;
+      if(revealedLetters.has(i)) {
+        input.value = c; input.disabled = true;
+      }
+      input.addEventListener('input', (e) => handleInput(e, i, c));
+      g.appendChild(input);
+    }
   });
+}
+
+function handleInput(e, i, correctChar) {
+  const val = e.target.value.toUpperCase();
+  if(!val) { e.target.className = 'tcell-input'; return; }
+  
+  if(val === correctChar) {
+    e.target.className = 'tcell-input correct';
+    // Keyingi inputga o'tish
+    const next = document.getElementById(`input-${i+1}`);
+    if(next) next.focus();
+  } else {
+    e.target.className = 'tcell-input wrong';
+  }
+  checkAllDone();
+}
+
+function checkAllDone() {
+  const t = currentMovie.title.split(' (')[0].toUpperCase();
+  let allCorrect = true;
+  [...t].forEach((c, i) => {
+    if(/[A-Z0-9]/.test(c)) {
+      const el = document.getElementById(`input-${i}`);
+      if(el.value.toUpperCase() !== c) allCorrect = false;
+    }
+  });
+  if(allCorrect) endRound(true);
 }
 
 function showClue(idx) {
   if(roundScore <= 1) return;
   spunIndices.push(idx);
-  const f = currentMovie.facts[idx], type = f.match(/\[(.*?)\]/)?.[1]||"INFO", txt = f.replace(/\[.*?\]/,"").trim();
+  const f = currentMovie.facts[idx];
+  const typeMatch = f.match(/\[(.*?)\]/);
+  const type = typeMatch ? typeMatch[1].toUpperCase() : "INFO";
+  const rawText = f.replace(/\[.*?\]/,"").trim();
+  
+  // Spoilerdagi belgilarni tozalash (Faqat HARF turida)
+  let cleanText = rawText;
+  if(type === "HARF") cleanText = rawText.split(' (')[0];
+
   const icon = ICONS[type] || "ℹ️";
   
-  document.getElementById(`f-${idx}`).innerHTML = `<div style="font-size:0.5rem; color:var(--gold)">${type}</div><div style="font-size:0.6rem">${txt}</div>`;
+  document.getElementById(`f-${idx}`).innerHTML = `<div style="font-size:0.45rem; color:var(--gold); font-weight:bold">${type}</div><div style="font-size:0.55rem; line-height:1.1">${cleanText}</div>`;
   document.getElementById(`card-${idx}`).classList.add('flipped');
-  document.getElementById('factText').innerHTML = `${icon} <b>${type}:</b> ${txt}`;
+  document.getElementById('factText').innerHTML = `${icon} <b>${type}:</b> ${cleanText}`;
   document.getElementById('factBox').classList.add('show');
 
   if(type === "HARF") {
-    const m = f.match(/reveal:\s*(\d+)/); if(m) revealedLetters.add(parseInt(m[1]));
-    renderTitle();
+    const m = f.match(/reveal:\s*(\d+)/); 
+    if(m) {
+      const pos = parseInt(m[1]);
+      revealedLetters.add(pos);
+      const input = document.getElementById(`input-${pos}`);
+      if(input) {
+        input.value = currentMovie.title.split(' (')[0][pos].toUpperCase();
+        input.className = 'tcell-input correct';
+        input.disabled = true;
+      }
+    }
+    checkAllDone();
   }
   roundScore--; document.getElementById('roundScore').innerText = roundScore;
-}
-
-function checkGuess() {
-  const v = document.getElementById('guessInput').value.trim().toUpperCase();
-  const t = currentMovie.title.split(' (')[0].toUpperCase();
-  if(v === t) endRound(true); else alert("Noto'g'ri!");
 }
 
 function skipRound() { endRound(false); }
 
 function endRound(win) {
+  const rTitle = document.getElementById('rTitle');
   if(win) {
     totalScore += roundScore;
-    document.getElementById('rTitle').innerText = "TO'G'RI!";
-    document.getElementById('rTitle').style.color = "var(--gold)";
+    rTitle.innerText = "TO'G'RI!";
+    rTitle.className = "modal-title";
+    rTitle.style.color = "var(--gold)";
   } else {
-    document.getElementById('rTitle').innerText = "0 BALL";
-    document.getElementById('rTitle').style.color = "var(--red)";
-    // Hamma narsani ochish
+    rTitle.innerText = "AFSUS!";
+    rTitle.className = "modal-title red";
+    rTitle.style.color = "var(--red)";
+    
+    // Hammasini ochish
     for(let i=0; i<15; i++) {
         if(!spunIndices.includes(i)) {
             const f = currentMovie.facts[i], type = f.match(/\[(.*?)\]/)?.[1]||"INFO", txt = f.replace(/\[.*?\]/,"").trim();
@@ -264,12 +357,10 @@ function endRound(win) {
             document.getElementById(`card-${i}`).classList.add('flipped');
         }
     }
-    const t = currentMovie.title.split(' (')[0].toUpperCase();
-    for(let i=0; i<t.length; i++) revealedLetters.add(i);
-    renderTitle();
   }
   document.getElementById('rFilm').innerText = currentMovie.title;
   document.getElementById('rIntro').innerText = currentMovie.intro;
+  document.getElementById('rBtnText').innerText = win ? "KEYINGI FILM →" : "ORTGA / DAVOM ETISH →";
   document.getElementById('resultModal').classList.add('show');
 }
 
